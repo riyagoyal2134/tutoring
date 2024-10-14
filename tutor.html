@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tutors Availability</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #79bde9;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            font-size: 28px;
+        }
+        label {
+            display: block;
+            margin-bottom: 10px;
+            color: #34495e;
+            font-weight: bold;
+        }
+        select {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #bdc3c7;
+            font-size: 16px;
+            background-color: #ecf0f1;
+            margin-bottom: 20px;
+        }
+        select:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 5px rgba(52, 152, 219, 0.5);
+        }
+        button {
+            margin-top: 20px;
+            padding: 12px 20px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 18px;
+            width: 100%;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        .day-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Tutoring Availability</h1>
+
+        <div class="day-section">
+            <label for="subject">Choose a subject:</label>
+            <select id="subject" multiple>
+                <optgroup label="Biology">
+                    <option value="Biochemistry">Biochemistry</option>
+                    <option value="Biodiversity and Evolution">Biodiversity and Evolution</option>
+                    <option value="Cells and Molecules">Cells and Molecules</option>
+                    <option value="Genetics">Genetics</option>
+                </optgroup>
+                <optgroup label="Business">
+                    <option value="Cost Accounting">Cost Accounting</option>
+                    <option value="Finance Accounting">Finance Accounting</option>
+                    <option value="Intermediate Accounting 1">Intermediate Accounting 1</option>
+                    <option value="Intro to Business Analytics">Intro to Business Analytics</option>
+                    <option value="Managerial Accounting">Managerial Accounting</option>
+
+                </optgroup>
+                <optgroup label="Chemistry">
+                    <option value="Chemistry I">Chemistry I</option>
+                    <option value="Chemistry II">Chemistry II</option>
+                    <option value="Chemistry III">Chemistry III</option>
+                    <option value="Chemistry IV">Chemistry IV</option>
+                </optgroup>
+                <optgroup label="Computer Science">
+                    <option value="Computer Organization">Computer Organization</option>
+                    <option value="Data Structures and Algorithms I">Data Structures and Algorithms I</option>
+                    <option value="Foundations of Computer Science">Foundations of Computer Science</option>
+                </optgroup>
+                <optgroup label="Criminal Justice">
+                    <option value="Ecological Economics">Ecological Economics</option>
+                    <option value="Intermediate Macroeconomics">Intermediate Macroeconomics</option>
+                    <option value="Macroeconomics">Macroeconomics</option>
+                    <option value="Microeconomics">Microeconomics</option>
+                </optgroup>
+                <optgroup label="Info & Stats">
+                    <option value="Advanced Statistics">Advanced Statistics</option>
+                    <option value="Experimental Psychology">Experimental Psychology</option>
+                    <option value="Programming and Problem Solving I">Programming and Problem Solving I</option>
+                    <option value="Programming and Problem Solving II">Programming and Problem Solving II</option>
+                    <option value="Psych Statistics">Psych Statistics</option>
+                    <option value="Statistics">Statistics</option>
+                </optgroup>
+                <optgroup label="Mathematics">
+                    <option value="Algebraic Problem Solving/Intermediate Algebra">Algebraic Problem Solving/Intermediate Algebra</option>
+                    <option value="Calculus I">Calculus I</option>
+                    <option value="Calculus II">Calculus II</option>
+                    <option value="Calculus III">Calculus III</option>
+                    <option value="Developmental Mathematics">Developmental Mathematics</option>
+                    <option value="Differential Equations">Differential Equations</option>
+                    <option value="Discrete Mathematics">Discrete Mathematics</option>
+                    <option value="Geometry for Teachers">Geometry for Teachers</option>
+                    <option value="Linear Algebra">Linear Algebra</option>
+                    <option value="Numerical Analysis">Numerical Analysis</option>
+                    <option value="Precalculus">Precalculus</option>
+                    <option value="Probability and Statistics I">Probability and Statistics I</option>
+                    <option value="Probability and Data Analysis">Probability and Data Analysis</option>
+                    <option value="Proof Through Algebra">Proof Through Algebra</option>
+                    <option value="Quantitative Reasoning">Quantitative Reasoning</option>
+                </optgroup>
+                <optgroup label="Physics">
+                    <option value="Physics for Life Sciences I">Physics for Life Sciences I</option>
+                    <option value="Physics for Life Sciences II">Physics for Life Sciences II</option>
+                    <option value="Physics I">Physics I</option>
+                    <option value="Physics II">Physics II</option>
+                    <option value="Physics III">Physics III</option>
+                    <option value="Statics">Statics</option>
+                </optgroup>
+            </select>
+        </div>
+
+        <div class="day-section">
+            <label for="monday">Choose time slots for Monday:</label>
+            <select id="monday" multiple>
+                <option value="9:00 AM">9:00 AM - 9:30 AM</option>
+                <option value="9:30 AM">9:30 AM - 10:00 AM</option>
+                <option value="10:00 AM">10:00 AM - 10:30 AM</option>
+                <option value="10:30 AM">10:30 AM - 11:00 AM</option>
+                <option value="11:00 AM">11:00 AM - 11:30 AM</option>
+                <option value="11:30 AM">11:30 AM - 12:00 PM</option>
+                <option value="12:00 PM">12:00 PM - 12:30 PM</option>
+                <option value="12:30 PM">12:30 PM - 1:00 PM</option>
+                <option value="1:00 PM">1:00 PM - 1:30 PM</option>
+                <option value="1:30 PM">1:30 PM - 2:00 PM</option>
+                <option value="2:00 PM">2:00 PM - 2:30 PM</option>
+                <option value="2:30 PM">2:30 PM - 3:00 PM</option>
+                <option value="3:00 PM">3:00 PM - 3:30 PM</option>
+                <option value="3:30 PM">3:30 PM - 4:00 PM</option>
+                <option value="4:00 PM">4:00 PM - 4:30 PM</option>
+                <option value="4:30 PM">4:30 PM - 5:00 PM</option>
+                <option value="6:00 PM">6:00 PM - 6:30 PM</option>
+                <option value="6:30 PM">6:30 PM - 7:00 PM</option>
+                <option value="7:00 PM">7:00 PM - 7:30 PM</option>
+                <option value="7:30 PM">7:30 PM - 8:00 PM</option>
+                <option value="8:00 PM">8:00 PM - 8:30 PM</option>
+                <option value="8:30 PM">8:30 PM - 9:00 PM</option>
+            </select>
+        </div>
+
+        <div class="day-section">
+            <label for="tuesday">Choose time slots for Tuesday:</label>
+            <select id="tuesday" multiple>
+                <option value="9:00 AM">9:00 AM - 9:30 AM</option>
+                <option value="9:30 AM">9:30 AM - 10:00 AM</option>
+                <option value="10:00 AM">10:00 AM - 10:30 AM</option>
+                <option value="10:30 AM">10:30 AM - 11:00 AM</option>
+                <option value="11:00 AM">11:00 AM - 11:30 AM</option>
+                <option value="11:30 AM">11:30 AM - 12:00 PM</option>
+                <option value="12:00 PM">12:00 PM - 12:30 PM</option>
+                <option value="12:30 PM">12:30 PM - 1:00 PM</option>
+                <option value="1:00 PM">1:00 PM - 1:30 PM</option>
+                <option value="1:30 PM">1:30 PM - 2:00 PM</option>
+                <option value="2:00 PM">2:00 PM - 2:30 PM</option>
+                <option value="2:30 PM">2:30 PM - 3:00 PM</option>
+                <option value="3:00 PM">3:00 PM - 3:30 PM</option>
+                <option value="3:30 PM">3:30 PM - 4:00 PM</option>
+                <option value="4:00 PM">4:00 PM - 4:30 PM</option>
+                <option value="4:30 PM">4:30 PM - 5:00 PM</option>
+                <option value="6:00 PM">6:00 PM - 6:30 PM</option>
+                <option value="6:30 PM">6:30 PM - 7:00 PM</option>
+                <option value="7:00 PM">7:00 PM - 7:30 PM</option>
+                <option value="7:30 PM">7:30 PM - 8:00 PM</option>
+                <option value="8:00 PM">8:00 PM - 8:30 PM</option>
+                <option value="8:30 PM">8:30 PM - 9:00 PM</option>
+            </select>
+        </div>
+
+        <div class="day-section">
+            <label for="wednesday">Choose time slots for Wednesday:</label>
+            <select id="wednesday" multiple>
+                <option value="9:00 AM">9:00 AM - 9:30 AM</option>
+                <option value="9:30 AM">9:30 AM - 10:00 AM</option>
+                <option value="10:00 AM">10:00 AM - 10:30 AM</option>
+                <option value="10:30 AM">10:30 AM - 11:00 AM</option>
+                <option value="11:00 AM">11:00 AM - 11:30 AM</option>
+                <option value="11:30 AM">11:30 AM - 12:00 PM</option>
+                <option value="12:00 PM">12:00 PM - 12:30 PM</option>
+                <option value="12:30 PM">12:30 PM - 1:00 PM</option>
+                <option value="1:00 PM">1:00 PM - 1:30 PM</option>
+                <option value="1:30 PM">1:30 PM - 2:00 PM</option>
+                <option value="2:00 PM">2:00 PM - 2:30 PM</option>
+                <option value="2:30 PM">2:30 PM - 3:00 PM</option>
+                <option value="3:00 PM">3:00 PM - 3:30 PM</option>
+                <option value="3:30 PM">3:30 PM - 4:00 PM</option>
+                <option value="4:00 PM">4:00 PM - 4:30 PM</option>
+                <option value="4:30 PM">4:30 PM - 5:00 PM</option>
+                <option value="6:00 PM">6:00 PM - 6:30 PM</option>
+                <option value="6:30 PM">6:30 PM - 7:00 PM</option>
+                <option value="7:00 PM">7:00 PM - 7:30 PM</option>
+                <option value="7:30 PM">7:30 PM - 8:00 PM</option>
+                <option value="8:00 PM">8:00 PM - 8:30 PM</option>
+                <option value="8:30 PM">8:30 PM - 9:00 PM</option>
+            </select>
+        </div>
+
+        <div class="day-section">
+            <label for="thursday">Choose time slots for Thursday:</label>
+            <select id="thursday" multiple>
+                <option value="9:00 AM">9:00 AM - 9:30 AM</option>
+                <option value="9:30 AM">9:30 AM - 10:00 AM</option>
+                <option value="10:00 AM">10:00 AM - 10:30 AM</option>
+                <option value="10:30 AM">10:30 AM - 11:00 AM</option>
+                <option value="11:00 AM">11:00 AM - 11:30 AM</option>
+                <option value="11:30 AM">11:30 AM - 12:00 PM</option>
+                <option value="12:00 PM">12:00 PM - 12:30 PM</option>
+                <option value="12:30 PM">12:30 PM - 1:00 PM</option>
+                <option value="1:00 PM">1:00 PM - 1:30 PM</option>
+                <option value="1:30 PM">1:30 PM - 2:00 PM</option>
+                <option value="2:00 PM">2:00 PM - 2:30 PM</option>
+                <option value="2:30 PM">2:30 PM - 3:00 PM</option>
+                <option value="3:00 PM">3:00 PM - 3:30 PM</option>
+                <option value="3:30 PM">3:30 PM - 4:00 PM</option>
+                <option value="4:00 PM">4:00 PM - 4:30 PM</option>
+                <option value="4:30 PM">4:30 PM - 5:00 PM</option>
+                <option value="6:00 PM">6:00 PM - 6:30 PM</option>
+                <option value="6:30 PM">6:30 PM - 7:00 PM</option>
+                <option value="7:00 PM">7:00 PM - 7:30 PM</option>
+                <option value="7:30 PM">7:30 PM - 8:00 PM</option>
+                <option value="8:00 PM">8:00 PM - 8:30 PM</option>
+                <option value="8:30 PM">8:30 PM - 9:00 PM</option>
+            </select>
+        </div>
+
+        <div class="day-section">
+            <label for="friday">Choose time slots for Friday:</label>
+            <select id="friday" multiple>
+                <option value="9:00 AM">9:00 AM - 9:30 AM</option>
+                <option value="9:30 AM">9:30 AM - 10:00 AM</option>
+                <option value="10:00 AM">10:00 AM - 10:30 AM</option>
+                <option value="10:30 AM">10:30 AM - 11:00 AM</option>
+                <option value="11:00 AM">11:00 AM - 11:30 AM</option>
+                <option value="11:30 AM">11:30 AM - 12:00 PM</option>
+                <option value="12:00 PM">12:00 PM - 12:30 PM</option>
+                <option value="12:30 PM">12:30 PM - 1:00 PM</option>
+                <option value="1:00 PM">1:00 PM - 1:30 PM</option>
+                <option value="1:30 PM">1:30 PM - 2:00 PM</option>            
+            </select>
+        </div>
+
+        <div class="day-section">
+            <label for="sunday">Choose time slots for Sunday:</label>
+            <select id="sunday" multiple>
+                <option value="6:00 PM">6:00 PM - 6:30 PM</option>
+                <option value="6:30 PM">6:30 PM - 7:00 PM</option>
+                <option value="7:00 PM">7:00 PM - 7:30 PM</option>
+                <option value="7:30 PM">7:30 PM - 8:00 PM</option>
+                <option value="8:00 PM">8:00 PM - 8:30 PM</option>
+                <option value="8:30 PM">8:30 PM - 9:00 PM</option>
+            </select>
+        </div>
+
+        <button type="submit">Submit</button>
+        <button type="reset">Reset</button>
+
+
+    </div>
+</body>
+</html>
