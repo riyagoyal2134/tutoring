@@ -40,6 +40,7 @@
             font-size: 16px;
             background-color: #ecf0f1;
             margin-bottom: 20px;
+            transition: border-color 0.3s ease;
         }
         select:focus {
             outline: none;
@@ -89,7 +90,6 @@
                     <option value="Intermediate Accounting 1">Intermediate Accounting 1</option>
                     <option value="Intro to Business Analytics">Intro to Business Analytics</option>
                     <option value="Managerial Accounting">Managerial Accounting</option>
-
                 </optgroup>
                 <optgroup label="Chemistry">
                     <option value="Chemistry I">Chemistry I</option>
@@ -163,15 +163,9 @@
                 <option value="3:30 PM">3:30 PM - 4:00 PM</option>
                 <option value="4:00 PM">4:00 PM - 4:30 PM</option>
                 <option value="4:30 PM">4:30 PM - 5:00 PM</option>
-                <option value="6:00 PM">6:00 PM - 6:30 PM</option>
-                <option value="6:30 PM">6:30 PM - 7:00 PM</option>
-                <option value="7:00 PM">7:00 PM - 7:30 PM</option>
-                <option value="7:30 PM">7:30 PM - 8:00 PM</option>
-                <option value="8:00 PM">8:00 PM - 8:30 PM</option>
-                <option value="8:30 PM">8:30 PM - 9:00 PM</option>
+                <option value="5:00 PM">5:00 PM - 5:30 PM</option>
             </select>
         </div>
-
         <div class="day-section">
             <label for="tuesday">Choose time slots for Tuesday:</label>
             <select id="tuesday" multiple>
@@ -284,10 +278,48 @@
             </select>
         </div>
 
-        <button type="submit">Submit</button>
+        <button onclick="submitAvailability()">Submit Availability</button>
         <button type="reset">Reset</button>
 
-
+        
     </div>
+
+    <script>
+        document.querySelector('button[type="reset"]').addEventListener('click', function(e) {
+            e.preventDefault();
+            document.querySelectorAll('select').forEach(function(select) {
+                select.selectedIndex = -1;
+            });
+        });
+    </script>
+
+    <script>
+        function submitAvailability() {
+            const subjectSelect = document.getElementById('subject');
+            const mondaySelect = document.getElementById('monday');
+            const tuesdaySelect = document.getElementById('tuesday');
+            const wednesdaySelect = document.getElementById('wednesday');
+            const thursdaySelect = document.getElementById('thursday');
+            const fridaySelect = document.getElementById('friday');
+            const sundaySelect = document.getElementById('sunday');
+
+            const selectedSubjects = Array.from(subjectSelect.selectedOptions).map(option => option.value);
+            const selectedMondayTimes = Array.from(mondaySelect.selectedOptions).map(option => option.value);
+            const selectedTuesdayTimes = Array.from(tuesdaySelect.selectedOptions).map(option => option.value);
+            const selectedWednesdayTimes = Array.from(wednesdaySelect.selectedOptions).map(option => option.value);
+            const selectedThursdayTimes = Array.from(thursdaySelect.selectedOptions).map(option => option.value);
+            const selectedFridayTimes = Array.from(fridaySelect.selectedOptions).map(option => option.value);
+            const selectedSundayTimes = Array.from(sundaySelect.selectedOptions).map(option => option.value);
+            
+            alert(`Selected Subjects: ${selectedSubjects.join(', ')}
+            \nSelected Monday Time: ${selectedMondayTimes.join(', ')}
+            \nSelected Tuesday Time: ${selectedTuesdayTimes.join(', ')}
+            \nSelected Wednesday Time: ${selectedWednesdayTimes.join(', ')}
+            \nSelected Thursday Time: ${selectedThursdayTimes.join(', ')}
+            \nSelected Friday Time: ${selectedFridayTimes.join(', ')}
+            \nSelected Sunday Time: ${selectedSundayTimes.join(', ')}`);
+        }
+    </script>
+
 </body>
 </html>
