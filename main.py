@@ -6,7 +6,6 @@ app = Flask(__name__)
 # MySQL configuration
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = ''
 app.config['MYSQL_DB'] = 'Tutoring_Center'
 
 mysql = MySQL(app)
