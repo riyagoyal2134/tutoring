@@ -1,9 +1,22 @@
+INSERT INTO DISCIPLINE(DisciplineName) VALUES("Biology");
+INSERT INTO DISCIPLINE(DisciplineName) VALUES("Business");
+INSERT INTO DISCIPLINE(DisciplineName) VALUES("Chemistry");
+INSERT INTO DISCIPLINE(DisciplineName) VALUES("Computer Science");
+INSERT INTO DISCIPLINE(DisciplineName) VALUES("Criminal Justice");
+INSERT INTO DISCIPLINE(DisciplineName) VALUES("Info and Stats");
+INSERT INTO DISCIPLINE(DisciplineName) VALUES("Mathematics");
+INSERT INTO DISCIPLINE(DisciplineName) VALUES("Physics");
+
+
+
+
+
 INSERT INTO SUBJECT_LIST(SubjectName) VALUES("Biochemistry");
 INSERT INTO SUBJECT_LIST(SubjectName) VALUES("Biodiversity and Evolution");
 INSERT INTO SUBJECT_LIST(SubjectName) VALUES("Cells and Molecules");
 INSERT INTO SUBJECT_LIST(SubjectName) VALUES("Genetics");
-INSERT INTO SUBJECT_LIST(SubjectName) VALUES("Cost Accounting");
 
+INSERT INTO SUBJECT_LIST(SubjectName) VALUES("Cost Accounting");
 INSERT INTO SUBJECT_LIST(SubjectName) VALUES("Financial Accounting");
 INSERT INTO SUBJECT_LIST(SubjectName) VALUES("Intermediate Accounting I");
 INSERT INTO SUBJECT_LIST(SubjectName) VALUES("Intro to Business Analytics");
@@ -17,11 +30,12 @@ INSERT INTO SUBJECT_LIST(SubjectName) VALUES("Chemistry IV");
 INSERT INTO SUBJECT_LIST(SubjectName) VALUES("Computer Organization");
 INSERT INTO SUBJECT_LIST(SubjectName) VALUES("Data Structures and Algorithms I");
 INSERT INTO SUBJECT_LIST(SubjectName) VALUES("Foundations of Computer Science");
-INSERT INTO SUBJECT_LIST(SubjectName) VALUES("Ecological Economics");
 
+INSERT INTO SUBJECT_LIST(SubjectName) VALUES("Ecological Economics");
 INSERT INTO SUBJECT_LIST(SubjectName) VALUES("Intermediate Macroeconomics");
 INSERT INTO SUBJECT_LIST(SubjectName) VALUES("Macroeconomics");
 INSERT INTO SUBJECT_LIST(SubjectName) VALUES("Microeconomics");
+
 INSERT INTO SUBJECT_LIST(SubjectName) VALUES("Advanced Statistics");
 INSERT INTO SUBJECT_LIST(SubjectName) VALUES("Experimental Psychology");
 INSERT INTO SUBJECT_LIST(SubjectName) VALUES("Programming and Problem Solving I");
@@ -51,3 +65,60 @@ INSERT INTO SUBJECT_LIST(SubjectName) VALUES("Physics I");
 INSERT INTO SUBJECT_LIST(SubjectName) VALUES("Physics II");
 INSERT INTO SUBJECT_LIST(SubjectName) VALUES("Physics III");
 INSERT INTO SUBJECT_LIST(SubjectName) VALUES("Statics");
+
+
+##################
+INSERT INTO SUBJECT_GROUPS(DisciplineID,SubjectID) VALUES(#Biology, );
+INSERT INTO SUBJECT_GROUPS(DisciplineID,SubjectID) VALUES(#Biology, );
+INSERT INTO SUBJECT_GROUPS(DisciplineID,SubjectID) VALUES(#Biology, );
+INSERT INTO SUBJECT_GROUPS(DisciplineID,SubjectID) VALUES(#Biology, );
+
+INSERT INTO SUBJECT_GROUPS(DisciplineID,SubjectID) VALUES(#Business,);
+INSERT INTO SUBJECT_GROUPS(DisciplineID,SubjectID) VALUES(#Business, );
+INSERT INTO SUBJECT_GROUPS(DisciplineID,SubjectID) VALUES(#Business, );
+INSERT INTO SUBJECT_GROUPS(DisciplineID,SubjectID) VALUES(#Business, );
+INSERT INTO SUBJECT_GROUPS(DisciplineID,SubjectID) VALUES(#Business, );
+
+INSERT INTO SUBJECT_GROUPS(DisciplineID,SubjectID) VALUES(#Chemistry, );
+INSERT INTO SUBJECT_GROUPS(DisciplineID,SubjectID) VALUES(#Chemistry, );
+INSERT INTO SUBJECT_GROUPS(DisciplineID,SubjectID) VALUES(#Chemistry, );
+INSERT INTO SUBJECT_GROUPS(DisciplineID,SubjectID) VALUES(#Chemistry, );
+
+INSERT INTO SUBJECT_GROUPS(DisciplineID,SubjectID) VALUES(#ComputerScience, );
+INSERT INTO SUBJECT_GROUPS(DisciplineID,SubjectID) VALUES(#ComputerScience, );
+INSERT INTO SUBJECT_GROUPS(DisciplineID,SubjectID) VALUES(#ComputerScience, );
+
+INSERT INTO SUBJECT_GROUPS(DisciplineID,SubjectID) VALUES(#CriminalJustice, );
+INSERT INTO SUBJECT_GROUPS(DisciplineID,SubjectID) VALUES(#CriminalJustice, );
+INSERT INTO SUBJECT_GROUPS(DisciplineID,SubjectID) VALUES(#CriminalJustice, );
+INSERT INTO SUBJECT_GROUPS(DisciplineID,SubjectID) VALUES(#CriminalJustice, );
+
+INSERT INTO SUBJECT_GROUPS(DisciplineID,SubjectID) VALUES(#InfoandStats, );
+INSERT INTO SUBJECT_GROUPS(DisciplineID,SubjectID) VALUES(#InfoandStats, );
+INSERT INTO SUBJECT_GROUPS(DisciplineID,SubjectID) VALUES(#InfoandStats, );
+INSERT INTO SUBJECT_GROUPS(DisciplineID,SubjectID) VALUES(#InfoandStats, );
+INSERT INTO SUBJECT_GROUPS(DisciplineID,SubjectID) VALUES(#InfoandStats, );
+INSERT INTO SUBJECT_GROUPS(DisciplineID,SubjectID) VALUES(#InfoandStats, );
+
+INSERT INTO SUBJECT_GROUPS(DisciplineID,SubjectID) VALUES(#Mathematics, );
+INSERT INTO SUBJECT_GROUPS(DisciplineID,SubjectID) VALUES(#Mathematics, );
+INSERT INTO SUBJECT_GROUPS(DisciplineID,SubjectID) VALUES(#Mathematics, );
+INSERT INTO SUBJECT_GROUPS(DisciplineID,SubjectID) VALUES(#Mathematics, );
+INSERT INTO SUBJECT_GROUPS(DisciplineID,SubjectID) VALUES(#Mathematics, );
+INSERT INTO SUBJECT_GROUPS(DisciplineID,SubjectID) VALUES(#Mathematics, );
+INSERT INTO SUBJECT_GROUPS(DisciplineID,SubjectID) VALUES(#Mathematics, );
+INSERT INTO SUBJECT_GROUPS(DisciplineID,SubjectID) VALUES(#Mathematics, );
+INSERT INTO SUBJECT_GROUPS(DisciplineID,SubjectID) VALUES(#Mathematics, );
+INSERT INTO SUBJECT_GROUPS(DisciplineID,SubjectID) VALUES(#Mathematics, );
+INSERT INTO SUBJECT_GROUPS(DisciplineID,SubjectID) VALUES(#Mathematics, );
+INSERT INTO SUBJECT_GROUPS(DisciplineID,SubjectID) VALUES(#Mathematics, );
+INSERT INTO SUBJECT_GROUPS(DisciplineID,SubjectID) VALUES(#Mathematics, );
+INSERT INTO SUBJECT_GROUPS(DisciplineID,SubjectID) VALUES(#Mathematics, );
+INSERT INTO SUBJECT_GROUPS(DisciplineID,SubjectID) VALUES(#Mathematics, );
+
+INSERT INTO SUBJECT_GROUPS(DisciplineID,SubjectID) VALUES(#Physics, );
+INSERT INTO SUBJECT_GROUPS(DisciplineID,SubjectID) VALUES(#Physics, );
+INSERT INTO SUBJECT_GROUPS(DisciplineID,SubjectID) VALUES(#Physics, );
+INSERT INTO SUBJECT_GROUPS(DisciplineID,SubjectID) VALUES(#Physics, );
+INSERT INTO SUBJECT_GROUPS(DisciplineID,SubjectID) VALUES(#Physics, );
+INSERT INTO SUBJECT_GROUPS(DisciplineID,SubjectID) VALUES(#Physics, );
