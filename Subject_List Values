@@ -1,5 +1,55 @@
 INSERT INTO SUBJECT_LIST(SubjectName) VALUES("Linear Algebra");
+
+INSERT INTO SUBJECT_LIST(SubjectName) VALUES("Biochemistry");
+INSERT INTO SUBJECT_LIST(SubjectName) VALUES("Biodiversity and Evolution");
+INSERT INTO SUBJECT_LIST(SubjectName) VALUES("Cells and Molecules");
+INSERT INTO SUBJECT_LIST(SubjectName) VALUES("Genetics");
+INSERT INTO SUBJECT_LIST(SubjectName) VALUES("Cost Accounting");
+
+INSERT INTO SUBJECT_LIST(SubjectName) VALUES("Financial Accounting");
+INSERT INTO SUBJECT_LIST(SubjectName) VALUES("Intermediate Accounting I");
+INSERT INTO SUBJECT_LIST(SubjectName) VALUES("Intro to Business Analytics");
+INSERT INTO SUBJECT_LIST(SubjectName) VALUES("Managerial Accounting");
+
+INSERT INTO SUBJECT_LIST(SubjectName) VALUES("Chemistry I");
+INSERT INTO SUBJECT_LIST(SubjectName) VALUES("Chemistry II");
+INSERT INTO SUBJECT_LIST(SubjectName) VALUES("Chemistry III");
+INSERT INTO SUBJECT_LIST(SubjectName) VALUES("Chemistry IV");
+
+INSERT INTO SUBJECT_LIST(SubjectName) VALUES("Computer Organization");
+INSERT INTO SUBJECT_LIST(SubjectName) VALUES("Data Structures and Algorithms I");
+INSERT INTO SUBJECT_LIST(SubjectName) VALUES("Foundations of Computer Science");
+INSERT INTO SUBJECT_LIST(SubjectName) VALUES("Ecological Economics");
+
+INSERT INTO SUBJECT_LIST(SubjectName) VALUES("Intermediate Macroeconomics");
+INSERT INTO SUBJECT_LIST(SubjectName) VALUES("Macroeconomics");
+INSERT INTO SUBJECT_LIST(SubjectName) VALUES("Microeconomics");
+INSERT INTO SUBJECT_LIST(SubjectName) VALUES("Advanced Statistics");
+INSERT INTO SUBJECT_LIST(SubjectName) VALUES("Experimental Psychology");
+INSERT INTO SUBJECT_LIST(SubjectName) VALUES("Programming and Problem Solving I");
+INSERT INTO SUBJECT_LIST(SubjectName) VALUES("Programming and Problem Solving II");
+INSERT INTO SUBJECT_LIST(SubjectName) VALUES("Psych Statistics");
+INSERT INTO SUBJECT_LIST(SubjectName) VALUES("Statistics");
+
+INSERT INTO SUBJECT_LIST(SubjectName) VALUES("Algebraic Problem Solving/Intermediate Algebra");
 INSERT INTO SUBJECT_LIST(SubjectName) VALUES("Calculus");
 INSERT INTO SUBJECT_LIST(SubjectName) VALUES("Calculus 2");
 INSERT INTO SUBJECT_LIST(SubjectName) VALUES("Calculus 3");
-INSERT INTO SUBJECT_LIST(SubjectName) VALUES("College Algebra");
+INSERT INTO SUBJECT_LIST(SubjectName) VALUES("Developmental Mathematics");
+INSERT INTO SUBJECT_LIST(SubjectName) VALUES("Differential Equations");
+INSERT INTO SUBJECT_LIST(SubjectName) VALUES("Discrete Mathematics");
+INSERT INTO SUBJECT_LIST(SubjectName) VALUES("Geometry for Teachers");
+INSERT INTO SUBJECT_LIST(SubjectName) VALUES("Linear Algebra");
+INSERT INTO SUBJECT_LIST(SubjectName) VALUES("Numerical Analysis");
+INSERT INTO SUBJECT_LIST(SubjectName) VALUES("Precalculus");
+INSERT INTO SUBJECT_LIST(SubjectName) VALUES("Probability and Statistics I");
+INSERT INTO SUBJECT_LIST(SubjectName) VALUES("Probability and Data Analysis");
+INSERT INTO SUBJECT_LIST(SubjectName) VALUES("Proof Through Algebra");
+INSERT INTO SUBJECT_LIST(SubjectName) VALUES("Quantitative Reasoning I");
+
+INSERT INTO SUBJECT_LIST(SubjectName) VALUES("Physics for Life Sciences I");
+INSERT INTO SUBJECT_LIST(SubjectName) VALUES("Physics for Life Sciences II");
+INSERT INTO SUBJECT_LIST(SubjectName) VALUES("Physics I");
+INSERT INTO SUBJECT_LIST(SubjectName) VALUES("Physics II");
+INSERT INTO SUBJECT_LIST(SubjectName) VALUES("Physics III");
+INSERT INTO SUBJECT_LIST(SubjectName) VALUES("Statics");
