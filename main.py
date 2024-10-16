@@ -4,20 +4,19 @@ from flask_mysqldb import MySQL
 app = Flask(__name__)
 
 # MySQL configuration
-app.config['MYSQL_HOST'] = 'localhost'  # Change if necessary
+app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
 app.config['MYSQL_PASSWORD'] = ''
 app.config['MYSQL_DB'] = 'Tutoring_Center'
 
-# Initialize MySQL
 mysql = MySQL(app)
 
-# Route to display the initial page with disciplines
+# Route to load the page with disciplines and subjects
 @app.route('/')
 def index():
     cur = mysql.connection.cursor()
     
-    # Fetch all disciplines
+    # Fetch all disciplines for the first dropdown
     cur.execute('SELECT DisciplineID, DisciplineName FROM DISCIPLINE')
     disciplines = cur.fetchall()
     
@@ -32,11 +31,11 @@ def get_subjects():
     
     cur = mysql.connection.cursor()
     
-    # Query subjects related to the selected discipline
+    # Query to get subjects based on discipline
     cur.execute('''
         SELECT s.SubjectID, s.SubjectName 
         FROM SUBJECT_LIST s
-        JOIN SUBJECT_GROUPS sg ON s.SubjectID = sg.SubjectID
+        JOIN SUBJECT_GROUPS sg ON sg.SubjectID = s.SubjectID
         WHERE sg.DisciplineID = %s
     ''', (discipline_id,))
     
@@ -45,6 +44,27 @@ def get_subjects():
     cur.close()
 
     return jsonify(subjects)
+
+# Route to get schedule based on selected subject
+@app.route('/get_schedule', methods=['POST'])
+def get_schedule():
+    subject_id = request.form.get('subject_id')
+    
+    cur = mysql.connection.cursor()
+    
+    # Query to get the schedule related to the selected subject
+    cur.execute('''
+        SELECT s.DayOfWeek, s.StartTime, s.Loc
+        FROM SCHEDULE s
+        JOIN SUBJECTS subj ON s.Email = subj.Email
+        WHERE subj.SubjectID = %s AND s.Approved = 'Yes'
+    ''', (subject_id,))
+    
+    schedules = cur.fetchall()
+
+    cur.close()
+
+    return jsonify(schedules)
 
 if __name__ == '__main__':
     app.run(debug=True)

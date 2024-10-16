@@ -3,8 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cascading Dropdowns</title>
+    <title>Weekly Calendar by Discipline and Subject</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        .calendar-table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        .calendar-table th, .calendar-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+        .calendar-table th {
+            background-color: #f2f2f2;
+        }
+        .calendar-slot {
+            height: 40px;
+            text-align: center;
+            vertical-align: middle;
+        }
+        .calendar-slot.empty {
+            background-color: #f9f9f9;
+        }
+    </style>
 </head>
 <body>
 
@@ -19,28 +40,107 @@
     <h2>Select Subject</h2>
     <select id="subject">
         <option value="">--Select Subject--</option>
+        <!-- Subjects will be dynamically loaded based on discipline -->
     </select>
 
+    <h2>Weekly Calendar</h2>
+    <table class="calendar-table">
+        <thead>
+            <tr>
+                <th>Time</th>
+                <th>Monday</th>
+                <th>Tuesday</th>
+                <th>Wednesday</th>
+                <th>Thursday</th>
+                <th>Friday</th>
+                <th>Saturday</th>
+                <th>Sunday</th>
+            </tr>
+        </thead>
+        <tbody id="calendar-body">
+            <!-- Calendar grid is generated here even if nothing is selected -->
+        </tbody>
+    </table>
+
     <script>
+        // Function to generate calendar in half-hour slots from 8 AM to 9 PM
+        function generateCalendar() {
+            const startTime = 8;  // 8 AM
+            const endTime = 21;   // 9 PM
+            const tbody = $('#calendar-body');
+            tbody.empty(); // Clear the calendar body
+
+            for (let hour = startTime; hour < endTime; hour++) {
+                for (let minute = 0; minute < 60; minute += 30) {
+                    const timeSlot = (hour < 10 ? '0' + hour : hour) + ':' + (minute === 0 ? '00' : minute);
+                    let row = '<tr><td>' + timeSlot + '</td>';
+                    for (let day = 1; day <= 7; day++) {
+                        row += '<td class="calendar-slot empty" data-day="' + day + '" data-time="' + timeSlot + '"></td>';
+                    }
+                    row += '</tr>';
+                    tbody.append(row);
+                }
+            }
+        }
+
+        // Function to clear the schedule and reset the calendar slots
+        function clearSchedule() {
+            $('.calendar-slot').text('').addClass('empty'); // Add empty class for visual indication
+        }
+
+        // Function to populate schedule in calendar (showing only location)
+        function populateSchedule(schedule) {
+            clearSchedule(); // Clear previous schedule
+
+            schedule.forEach(item => {
+                const dayMap = { 'Monday': 1, 'Tuesday': 2, 'Wednesday': 3, 'Thursday': 4, 'Friday': 5, 'Saturday': 6, 'Sunday': 7 };
+                const day = dayMap[item[0]];  // Map day name to a number (Monday=1, ..., Sunday=7)
+                const time = item[1].substring(0, 5);  // Format time to HH:MM
+
+                const slot = $('.calendar-slot[data-day="' + day + '"][data-time="' + time + '"]');
+                slot.text(item[2]).removeClass('empty');  // Display only the location (item[2])
+            });
+        }
+
         // When discipline is selected, fetch corresponding subjects
         $('#discipline').on('change', function() {
             var discipline_id = $(this).val();
+            clearSchedule(); // Clear calendar if discipline changes
+            $('#subject').empty().append('<option value="">--Select Subject--</option>');
+
             if (discipline_id) {
                 $.ajax({
                     url: '/get_subjects',
                     type: 'POST',
-                    data: {discipline_id: discipline_id},
+                    data: { discipline_id: discipline_id },
                     success: function(subjects) {
-                        $('#subject').empty().append('<option value="">--Select Subject--</option>');
-                        $.each(subjects, function(i, subject) {
+                        subjects.forEach(function(subject) {
                             $('#subject').append('<option value="' + subject[0] + '">' + subject[1] + '</option>');
                         });
                     }
                 });
-            } else {
-                $('#subject').empty().append('<option value="">--Select Subject--</option>');
             }
         });
+
+        // When subject is selected, fetch corresponding schedules
+        $('#subject').on('change', function() {
+            var subject_id = $(this).val();
+            clearSchedule(); // Clear previous schedule when a new subject is selected
+
+            if (subject_id) {
+                $.ajax({
+                    url: '/get_schedule',
+                    type: 'POST',
+                    data: { subject_id: subject_id },
+                    success: function(schedules) {
+                        populateSchedule(schedules);
+                    }
+                });
+            }
+        });
+
+        // Generate the calendar when the page loads
+        generateCalendar();
     </script>
 </body>
 </html>
