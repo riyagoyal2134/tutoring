@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cascading Dropdowns</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+
+    <h2>Select Discipline</h2>
+    <select id="discipline">
+        <option value="">--Select Discipline--</option>
+        {% for discipline in disciplines %}
+            <option value="{{ discipline[0] }}">{{ discipline[1] }}</option>
+        {% endfor %}
+    </select>
+
+    <h2>Select Subject</h2>
+    <select id="subject">
+        <option value="">--Select Subject--</option>
+    </select>
+
+    <script>
+        // When discipline is selected, fetch corresponding subjects
+        $('#discipline').on('change', function() {
+            var discipline_id = $(this).val();
+            if (discipline_id) {
+                $.ajax({
+                    url: '/get_subjects',
+                    type: 'POST',
+                    data: {discipline_id: discipline_id},
+                    success: function(subjects) {
+                        $('#subject').empty().append('<option value="">--Select Subject--</option>');
+                        $.each(subjects, function(i, subject) {
+                            $('#subject').append('<option value="' + subject[0] + '">' + subject[1] + '</option>');
+                        });
+                    }
+                });
+            } else {
+                $('#subject').empty().append('<option value="">--Select Subject--</option>');
+            }
+        });
+    </script>
+</body>
+</html>
