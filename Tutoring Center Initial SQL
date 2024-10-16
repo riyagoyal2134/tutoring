@@ -1,0 +1,36 @@
+CREATE TABLE USERS(
+    Email       varchar(50) not null,
+    FirstName   varchar(25) not null,
+    LastName    varchar(25) not null,
+    Tutor       varchar(5),
+    Admin       varchar(5),
+    constraint UsersPK primary key(Email)
+);
+CREATE TABLE LOGIN(
+    Email   varchar(25) not null,
+    Pword    varchar(50) not null,
+    constraint LOGINPK primary key(Email),
+    constraint LOGINFK foreign key(Email) references Users(Email)
+);
+CREATE TABLE SUBJECT_LIST(
+    SubjectID   int not null AUTO_INCREMENT,
+    SubjectName varchar(50) not null,
+    constraint SubjectListPk primary key(SubjectID)
+);
+ALTER TABLE SUBJECT_LIST AUTO_INCREMENT=1001;
+CREATE TABLE SUBJECTS(
+    Email   varchar(50) not null,
+    SubjectID   int not null,
+    constraint SubjectsPk primary key(Email,SubjectID),
+    constraint SubjectsFK1 foreign key(Email) references Users(Email),
+    constraint SubjectsFK2 foreign key(SubjectID) references SUBJECT_LIST(SubjectID)
+);
+CREATE TABLE SCHEDULE(
+    Email   varchar(50) not null,
+    DayOfWeek   varchar(10) not null,
+    StartTime   time    not null,
+    Loc        varchar(25),
+    Approved    varchar(3),
+    constraint SchedulePK primary key(Email,DayOfWeek,StartTime),
+    constraint ScheduleFK1 foreign key(Email) references USERS(Email)
+);
