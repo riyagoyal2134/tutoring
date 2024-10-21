@@ -18,6 +18,19 @@ CREATE TABLE SUBJECT_LIST(
     constraint SubjectListPk primary key(SubjectID)
 );
 ALTER TABLE SUBJECT_LIST AUTO_INCREMENT=1001;
+CREATE TABLE DISCIPLINE(
+    DisciplineID int not null AUTO_INCREMENT,
+    DisciplineName varchar(50) not null,
+    constraint DisciplinePK primary key(DisciplineID)
+);
+ALTER TABLE DISCIPLINE AUTO_INCREMENT=100;
+CREATE TABLE SUBJECT_GROUPS(
+    DisciplineID int not null,
+    SubjectID int not null,
+    constraint Subject_GroupsPK primary key(DisciplineID,SubjectID),
+    constraint Subject_GroupsFK1 foreign key(DisciplineID) references DISCIPLINE(DisciplineID),
+    constraint Subject_GroupsFK2 foreign key(SubjectID) references SUBJECT_LIST(SubjectID)
+);
 CREATE TABLE SUBJECTS(
     Email   varchar(50) not null,
     SubjectID   int not null,
