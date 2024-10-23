@@ -93,12 +93,29 @@
             clearSchedule(); // Clear previous schedule
 
             schedule.forEach(item => {
-                const dayMap = { 'Monday': 1, 'Tuesday': 2, 'Wednesday': 3, 'Thursday': 4, 'Friday': 5, 'Saturday': 6, 'Sunday': 7 };
-                const day = dayMap[item[0]];  // Map day name to a number (Monday=1, ..., Sunday=7)
-                const time = item[1].substring(0, 5);  // Format time to HH:MM
+                console.log(item);  // Log the item to see its structure
 
-                const slot = $('.calendar-slot[data-day="' + day + '"][data-time="' + time + '"]');
-                slot.text(item[2]).removeClass('empty');  // Display only the location (item[2])
+                const dayMap = {
+                    'Monday': 1,
+                    'Tuesday': 2,
+                    'Wednesday': 3,
+                    'Thursday': 4,
+                    'Friday': 5,
+                    'Saturday': 6,
+                    'Sunday': 7
+                };
+
+                const day = dayMap[item.DayOfWeek];  // Map day name to a number
+                // Check if StartTime exists and is valid
+                const time = item.StartTime ? item.StartTime.substring(0, 5) : null;
+
+                // Check if both day and time are valid before proceeding
+                if (day && time) {
+                    const slot = $('.calendar-slot[data-day="' + day + '"][data-time="' + time + '"]');
+                    slot.text(item.Loc).removeClass('empty');  // Display the location
+                } else {
+                    console.error('Invalid entry:', item);  // Log if the entry is invalid
+                }
             });
         }
 
@@ -133,7 +150,11 @@
                     type: 'POST',
                     data: { subject_id: subject_id },
                     success: function(schedules) {
-                        populateSchedule(schedules);
+                        console.log(schedules);  // Log the received schedule data
+                        populateSchedule(schedules);  // Ensure this is correct
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error fetching schedule:', error);  // Log any errors
                     }
                 });
             }
