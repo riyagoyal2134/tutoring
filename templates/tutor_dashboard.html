@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tutor Dashboard</title>
+    <link rel="stylesheet" href="static/styles.css"> <!-- Your existing stylesheet -->
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome, {{ firstname }}! (Tutor)</h1>
+
+        <div class="button-container">
+            <!-- Conditionally display the admin button -->
+            {% if admin == 'Yes' %}
+                <button onclick="window.location.href='{{ url_for('admin_dashboard') }}'">Go to Admin Dashboard</button>
+            {% endif %}
+            <button onclick="window.location.href='{{ url_for('logout') }}'">Logout</button>
+        </div>
+
+        <h2>Tutor Functions</h2>
+        <!-- Existing tutor functions and content -->
+    </div>
+</body>
+</html>

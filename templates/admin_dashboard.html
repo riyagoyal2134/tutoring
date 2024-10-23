@@ -1,0 +1,23 @@
+<!-- admin_dashboard.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="static/styles.css"> <!-- Your existing stylesheet -->
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome, {{ firstname }}! (Admin)</h1>
+
+        <div class="button-container">
+            <button onclick="window.location.href='{{ url_for('tutor_dashboard') }}'">Go to Tutor Dashboard</button>
+            <button onclick="window.location.href='{{ url_for('logout') }}'">Logout</button>
+        </div>
+
+        <h2>Admin Functions</h2>
+        <!-- Existing admin functions and content -->
+    </div>
+</body>
+</html>

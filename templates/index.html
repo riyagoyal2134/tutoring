@@ -25,9 +25,37 @@
         .calendar-slot.empty {
             background-color: #f9f9f9;
         }
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            background-color: #f1f1f1;
+            padding: 10px;
+        }
+        .navbar .auth-links {
+            display: flex;
+            gap: 10px;
+        }
+        .navbar button {
+            padding: 10px;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
+
+    <!-- Navbar with login/register/logout buttons -->
+    <div class="navbar">
+        <h2>Weekly Calendar by Discipline</h2>
+        <div class="auth-links">
+            {% if session['loggedin'] %}
+                <span>Welcome, {{ session['firstname'] }}!</span>
+                <button onclick="window.location.href='/logout'">Logout</button>
+            {% else %}
+                <button onclick="window.location.href='/login'">Login</button>
+                <button onclick="window.location.href='/register'">Register</button>
+            {% endif %}
+        </div>
+    </div>
 
     <h2>Select Discipline</h2>
     <select id="discipline">
@@ -139,7 +167,7 @@
             }
         });
 
-        // When subject is selected, fetch corresponding schedules
+        // When subject is selected, fetch corresponding schedules (only those with Approved = 'Yes')
         $('#subject').on('change', function() {
             var subject_id = $(this).val();
             clearSchedule(); // Clear previous schedule when a new subject is selected
