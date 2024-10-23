@@ -181,6 +181,7 @@ def register():
             return redirect(url_for('login'))
     return render_template('register.html', msg=msg)
 
+# Existing route for admin dashboard
 @app.route('/admin_dashboard')
 def admin_dashboard():
     if 'loggedin' in session and session.get('admin') == 'Yes':
@@ -188,12 +189,14 @@ def admin_dashboard():
     else:
         return redirect(url_for('login'))
 
-@app.route('/admin_dashboard')
-def admin_dashboard():
-    if 'loggedin' in session and session.get('admin') == 'Yes':
-        return render_template('admin_dashboard.html', firstname=session['firstname'], tutor=session['tutor'])
+# New route for tutor dashboard
+@app.route('/tutor_dashboard')
+def tutor_dashboard():
+    if 'loggedin' in session and session.get('tutor') == 'Yes':
+        return render_template('tutor_dashboard.html', firstname=session['firstname'])
     else:
         return redirect(url_for('login'))
+
 
 if __name__ == '__main__':
     app.run(debug=True)

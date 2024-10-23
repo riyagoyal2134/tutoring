@@ -4,22 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tutor Dashboard</title>
-    <link rel="stylesheet" href="static/styles.css"> <!-- Your existing stylesheet -->
 </head>
 <body>
-    <div class="container">
-        <h1>Welcome, {{ firstname }}! (Tutor)</h1>
+    <h1>Welcome, {{ firstname }}!</h1>
+    <p>This is your tutor dashboard. Here you can manage your tutoring sessions.</p>
 
-        <div class="button-container">
-            <!-- Conditionally display the admin button -->
-            {% if admin == 'Yes' %}
-                <button onclick="window.location.href='{{ url_for('admin_dashboard') }}'">Go to Admin Dashboard</button>
-            {% endif %}
-            <button onclick="window.location.href='{{ url_for('logout') }}'">Logout</button>
-        </div>
+    <!-- Conditionally show the "Go to Admin" button if the user is an admin -->
+    {% if session.get('admin') == 'Yes' %}
+        <button onclick="window.location.href='/admin_dashboard'">Go to Admin Page</button>
+    {% endif %}
 
-        <h2>Tutor Functions</h2>
-        <!-- Existing tutor functions and content -->
-    </div>
+    <a href="/logout">Logout</a>
 </body>
 </html>

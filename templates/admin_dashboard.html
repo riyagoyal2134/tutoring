@@ -12,8 +12,8 @@
         <h1>Welcome, {{ firstname }}! (Admin)</h1>
 
         <div class="button-container">
-            <button onclick="window.location.href='{{ url_for('tutor_dashboard') }}'">Go to Tutor Dashboard</button>
-            <button onclick="window.location.href='{{ url_for('logout') }}'">Logout</button>
+            <button onclick="window.location.href='/tutor_dashboard'">Go to Tutor Page</button>
+            <a href="/logout">Logout</a>
         </div>
 
         <h2>Admin Functions</h2>
