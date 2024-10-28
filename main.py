@@ -189,14 +189,109 @@ def admin_dashboard():
     else:
         return redirect(url_for('login'))
 
+def generate_time_slots():
+    slots = []
+    for hour in range(8, 21):  # 8 AM to 9 PM
+        for minute in (0, 30):
+            slots.append(f"{hour:02}:{minute:02}:00")
+    return slots
+
+# Helper function to convert timedelta to HH:MM format
+def timedelta_to_str(timedelta_obj):
+    total_seconds = int(timedelta_obj.total_seconds())
+    hours, remainder = divmod(total_seconds, 3600)
+    minutes, _ = divmod(remainder, 60)
+    return f"{hours:02}:{minutes:02}"  # Returns HH:MM format
+
 # New route for tutor dashboard
-@app.route('/tutor_dashboard')
+@app.route('/tutor_dashboard', methods=['GET', 'POST'])
 def tutor_dashboard():
     if 'loggedin' in session and session.get('tutor') == 'Yes':
-        return render_template('tutor_dashboard.html', firstname=session['firstname'])
+        email = session['email']
+        cur = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+
+        # Fetch all subjects and pre-checked subjects for the user
+        cur.execute("SELECT SubjectID, SubjectName FROM SUBJECT_LIST")
+        subjects = cur.fetchall()
+        cur.execute("SELECT SubjectID FROM SUBJECTS WHERE Email = %s", (email,))
+        tutor_subjects = {row['SubjectID'] for row in cur.fetchall()}
+
+        # Fetch existing availability with time formatted as HH:MM
+        cur.execute("SELECT DayOfWeek, StartTime FROM SCHEDULE WHERE Email = %s", (email,))
+        existing_availability = {(row['DayOfWeek'], timedelta_to_str(row['StartTime'])) for row in cur.fetchall()}
+
+        if request.method == 'POST':
+            # 1. Handle subject update form
+            if 'subject_ids' in request.form:
+                selected_subject_ids = set(map(int, request.form.getlist('subject_ids')))
+                # Remove unselected subjects
+                for subject_id in tutor_subjects - selected_subject_ids:
+                    cur.execute("DELETE FROM SUBJECTS WHERE Email = %s AND SubjectID = %s", (email, subject_id))
+                # Add newly selected subjects
+                for subject_id in selected_subject_ids - tutor_subjects:
+                    cur.execute("INSERT INTO SUBJECTS (Email, SubjectID) VALUES (%s, %s)", (email, subject_id))
+                mysql.connection.commit()
+                tutor_subjects = selected_subject_ids  # Update local cache after database update
+
+            # 2. Handle availability update form, day-specific
+            if 'availability_day' in request.form:
+                availability_day = request.form.get("availability_day")
+                selected_availability = set()
+                location_default = request.form.get("location_default", "Online")
+
+                # Collect selected availability time slots for the specific day
+                if availability_day:
+                    for time in request.form.getlist("availability_times"):
+                        location = request.form.get(f"location_{time}", location_default)
+                        selected_availability.add((availability_day, time, location))
+
+                # Delete unselected availability slots only for the specific day
+                to_delete = {(day, time) for day, time in existing_availability if day == availability_day and (day, time) not in {(day, time) for day, time, _ in selected_availability}}
+                for day, time in to_delete:
+                    cur.execute("DELETE FROM SCHEDULE WHERE Email = %s AND DayOfWeek = %s AND StartTime = %s", (email, day, time))
+
+                # Add or update new availability for the specific day
+                for day, time, location in selected_availability:
+                    if (day, time) not in {(d, t) for d, t in existing_availability}:
+                        cur.execute("INSERT INTO SCHEDULE (Email, DayOfWeek, StartTime, Loc, Approved) VALUES (%s, %s, %s, %s, 'No')",
+                                    (email, day, time, location))
+                    else:
+                        cur.execute("UPDATE SCHEDULE SET Loc = %s WHERE Email = %s AND DayOfWeek = %s AND StartTime = %s", 
+                                    (location, email, day, time))
+
+                mysql.connection.commit()
+
+        # Fetch updated schedule for display
+        cur.execute("""
+            SELECT DayOfWeek, StartTime, Loc
+            FROM SCHEDULE
+            WHERE Email = %s AND Approved = 'Yes'
+            ORDER BY DayOfWeek, StartTime
+        """, (email,))
+        approved_schedule = [
+            {
+                "DayOfWeek": row['DayOfWeek'],
+                "StartTime": timedelta_to_str(row['StartTime']),
+                "Loc": row['Loc']
+            }
+            for row in cur.fetchall()
+        ]
+
+        # Updated availability list for rendering
+        cur.execute("SELECT DayOfWeek, StartTime, Loc FROM SCHEDULE WHERE Email = %s", (email,))
+        fetched_schedule = cur.fetchall()
+        tutor_schedule = [
+            (row['DayOfWeek'], timedelta_to_str(row['StartTime']), row['Loc']) for row in fetched_schedule
+        ]
+
+        cur.close()
+        
+        return render_template('tutor_dashboard.html', firstname=session['firstname'],
+                               subjects=subjects, tutor_subjects=tutor_subjects,
+                               approved_schedule=approved_schedule,
+                               tutor_schedule=tutor_schedule)
     else:
         return redirect(url_for('login'))
-
 
 if __name__ == '__main__':
     app.run(debug=True)

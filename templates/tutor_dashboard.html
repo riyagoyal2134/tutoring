@@ -4,16 +4,168 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tutor Dashboard</title>
+    <style>
+        /* Basic styling */
+        .scrollable {
+            max-height: 150px;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin-bottom: 15px;
+        }
+        .time-slot {
+            display: flex;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+        .time-slot input[type="text"] {
+            margin-left: 10px;
+            width: 100px;
+        }
+        .calendar {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 10px;
+            text-align: center;
+            margin-top: 20px;
+        }
+        .day {
+            padding: 10px;
+            border: 1px solid #ddd;
+            background-color: #f9f9f9;
+            border-radius: 4px;
+        }
+        .schedule-entry {
+            font-size: 0.9em;
+            margin-top: 5px;
+            background-color: #e0f7fa;
+            border-radius: 3px;
+            padding: 3px;
+        }
+    </style>
 </head>
 <body>
     <h1>Welcome, {{ firstname }}!</h1>
     <p>This is your tutor dashboard. Here you can manage your tutoring sessions.</p>
 
+    <!-- Button to go to index page (always visible) -->
+    <button onclick="window.location.href='{{ url_for('index') }}'">Go to Home</button>
+
     <!-- Conditionally show the "Go to Admin" button if the user is an admin -->
     {% if session.get('admin') == 'Yes' %}
-        <button onclick="window.location.href='/admin_dashboard'">Go to Admin Page</button>
+        <button onclick="window.location.href='{{ url_for('admin_dashboard') }}'">Go to Admin Page</button>
     {% endif %}
 
+    <!-- Approved Schedule Calendar -->
+    <h2>Your Approved Schedule</h2>
+    <div class="calendar">
+        {% for day in ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'] %}
+            <div class="day">
+                <strong>{{ day }}</strong>
+                <div>
+                    {% for entry in approved_schedule %}
+                        {% if entry['DayOfWeek'] == day %}
+                            <div class="schedule-entry">
+                                {{ entry['StartTime'] }} - {{ entry['Loc'] }}
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <!-- Update Subjects Form -->
+    <h2>Update Subjects</h2>
+    <form method="post">
+        <div class="scrollable">
+            <label>Select Subjects:</label><br>
+            {% for subject in subjects %}
+                <input type="checkbox" name="subject_ids" value="{{ subject.SubjectID }}"
+                       {% if subject.SubjectID in tutor_subjects %} checked {% endif %}>
+                {{ subject.SubjectName }}<br>
+            {% endfor %}
+        </div>
+        <button type="submit">Update Subjects</button>
+    </form>
+
+    <!-- Set Availability Form -->
+    <h2>Set Availability</h2>
+    <form method="post">
+        <!-- Day of the week dropdown -->
+        <label>Select Day:</label><br>
+        <select id="availability_day" name="availability_day" onchange="updateAvailableTimes()">
+            <option value="">Select a day</option>
+            <option value="Monday">Monday</option>
+            <option value="Tuesday">Tuesday</option>
+            <option value="Wednesday">Wednesday</option>
+            <option value="Thursday">Thursday</option>
+            <option value="Friday">Friday</option>
+            <option value="Saturday">Saturday</option>
+            <option value="Sunday">Sunday</option>
+        </select><br><br>
+        
+        <!-- Time slot checkboxes and locations -->
+        <label>Select Times and Set Location:</label><br>
+        <div id="timeSlots">
+            <!-- Time slots will be dynamically added here by JavaScript -->
+        </div>
+        
+        <button type="submit">Add Availability</button>
+    </form>
+
     <a href="/logout">Logout</a>
+
+    <script>
+        const tutorSchedule = {{ tutor_schedule|tojson|safe }};
+
+        function updateAvailableTimes() {
+            const day = document.getElementById("availability_day").value;
+            const timeSlotsDiv = document.getElementById("timeSlots");
+
+            // Clear current time slots
+            timeSlotsDiv.innerHTML = '';
+
+            // List of 30-minute intervals in HH:MM format
+            const timeIntervals = [
+                "08:00", "08:30", "09:00", "09:30", "10:00", "10:30", "11:00", "11:30",
+                "12:00", "12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30",
+                "16:00", "16:30", "17:00", "17:30", "18:00", "18:30", "19:00", "19:30",
+                "20:00", "20:30"
+            ];
+
+            // Generate checkboxes and location inputs for each time slot
+            timeIntervals.forEach(time => {
+                const timeSlotDiv = document.createElement("div");
+                timeSlotDiv.classList.add("time-slot");
+
+                const checkbox = document.createElement("input");
+                checkbox.type = "checkbox";
+                checkbox.name = "availability_times";
+                checkbox.value = time;
+
+                // Find if this time slot is already in the schedule and set location if so
+                const existingEntry = tutorSchedule.find(([d, t, loc]) => d === day && t === time);
+                if (existingEntry) {
+                    checkbox.checked = true;
+                }
+
+                const timeLabel = document.createElement("label");
+                timeLabel.innerText = time; // Display HH:MM format
+
+                const locationInput = document.createElement("input");
+                locationInput.type = "text";
+                locationInput.name = `location_${time}`;  // Unique name for each location input
+                locationInput.placeholder = "Location";
+                locationInput.value = existingEntry ? existingEntry[2] : ""; // Prefill location if exists
+
+                timeSlotDiv.appendChild(checkbox);
+                timeSlotDiv.appendChild(timeLabel);
+                timeSlotDiv.appendChild(locationInput);
+
+                timeSlotsDiv.appendChild(timeSlotDiv);
+            });
+        }
+    </script>
 </body>
 </html>

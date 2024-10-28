@@ -47,11 +47,3 @@ CREATE TABLE SCHEDULE(
     constraint SchedulePK primary key(Email,DayOfWeek,StartTime),
     constraint ScheduleFK1 foreign key(Email) references USERS(Email)
 );
-
-INSERT INTO USERS(Email,FirstName,LastName,Tutor,Admin) VALUES("gonza467@go.stockton.edu", "Alexis","Gonzalez","Yes","Yes");
-INSERT INTO LOGIN(Email,Pword) VALUES("gonza467@go.stockton.edu","admin");
-INSERT INTO SUBJECTS(Email,SUbjectID) VALUES("gonza467@go.stockton.edu",1001);
-INSERT INTO SUBJECTS(Email,SUbjectID) VALUES("gonza467@go.stockton.edu",1012);
-INSERT INTO SUBJECTS(Email,SUbjectID) VALUES("gonza467@go.stockton.edu",1002);
-
-INSERT INTO SCHEDULE(Email, DayOfWeek,StartTime,Loc,Approved) VALUES('gonza467@go.stockton.edu',"Monday",'8:30:00', "J104","Yes");
