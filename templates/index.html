@@ -43,12 +43,22 @@
 </head>
 <body>
 
-    <!-- Navbar with login/register/logout buttons -->
+    <!-- Navbar with conditional login/logout buttons and role-based navigation buttons -->
     <div class="navbar">
         <h2>Weekly Calendar by Discipline</h2>
         <div class="auth-links">
             {% if session['loggedin'] %}
                 <span>Welcome, {{ session['firstname'] }}!</span>
+
+                <!-- Conditional buttons for Admin and Tutor roles -->
+                {% if session['admin'] == 'Yes' %}
+                    <button onclick="window.location.href='/admin_dashboard'">Admin Dashboard</button>
+                {% endif %}
+                
+                {% if session['tutor'] == 'Yes' %}
+                    <button onclick="window.location.href='/tutor_dashboard'">Tutor Dashboard</button>
+                {% endif %}
+
                 <button onclick="window.location.href='/logout'">Logout</button>
             {% else %}
                 <button onclick="window.location.href='/login'">Login</button>
@@ -116,13 +126,11 @@
             $('.calendar-slot').text('').addClass('empty'); // Add empty class for visual indication
         }
 
-        // Function to populate schedule in calendar (showing only location)
+        // Function to populate schedule in calendar (showing all unique locations)
         function populateSchedule(schedule) {
             clearSchedule(); // Clear previous schedule
 
             schedule.forEach(item => {
-                console.log(item);  // Log the item to see its structure
-
                 const dayMap = {
                     'Monday': 1,
                     'Tuesday': 2,
@@ -134,13 +142,19 @@
                 };
 
                 const day = dayMap[item.DayOfWeek];  // Map day name to a number
-                // Check if StartTime exists and is valid
                 const time = item.StartTime ? item.StartTime.substring(0, 5) : null;
 
-                // Check if both day and time are valid before proceeding
                 if (day && time) {
                     const slot = $('.calendar-slot[data-day="' + day + '"][data-time="' + time + '"]');
-                    slot.text(item.Loc).removeClass('empty');  // Display the location
+                    
+                    // Get existing locations in the cell
+                    let existingLocations = slot.text().split(', ').filter(loc => loc);
+
+                    // Check if the new location is already present to avoid duplicates
+                    if (!existingLocations.includes(item.Loc)) {
+                        existingLocations.push(item.Loc);  // Add the new unique location
+                        slot.text(existingLocations.join(', ')).removeClass('empty');  // Display all locations separated by commas
+                    }
                 } else {
                     console.error('Invalid entry:', item);  // Log if the entry is invalid
                 }
@@ -157,11 +171,15 @@
                 $.ajax({
                     url: '/get_subjects',
                     type: 'POST',
-                    data: { discipline_id: discipline_id },
+                    contentType: 'application/json',  // Specify JSON format
+                    data: JSON.stringify({ discipline_id: discipline_id }),  // Send data as JSON
                     success: function(subjects) {
                         subjects.forEach(function(subject) {
-                            $('#subject').append('<option value="' + subject[0] + '">' + subject[1] + '</option>');
+                            $('#subject').append('<option value="' + subject.SubjectID + '">' + subject.SubjectName + '</option>');
                         });
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error fetching subjects:', error);  // Log any errors
                     }
                 });
             }
@@ -176,10 +194,10 @@
                 $.ajax({
                     url: '/get_schedule',
                     type: 'POST',
-                    data: { subject_id: subject_id },
+                    contentType: 'application/json',  // Specify JSON format
+                    data: JSON.stringify({ subject_id: subject_id }),  // Send data as JSON
                     success: function(schedules) {
-                        console.log(schedules);  // Log the received schedule data
-                        populateSchedule(schedules);  // Ensure this is correct
+                        populateSchedule(schedules);  // Populate the schedule in calendar
                     },
                     error: function(xhr, status, error) {
                         console.error('Error fetching schedule:', error);  // Log any errors
