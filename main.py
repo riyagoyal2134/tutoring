@@ -274,12 +274,18 @@ def approve_schedules():
 def update_user_roles():
     if 'loggedin' in session and session.get('admin') == 'Yes':
         cur = mysql.connection.cursor()
-        for user in request.form.keys():
-            if user.startswith("tutor_") or user.startswith("admin_"):
-                email = user.split('_')[1]
+        for field_name in request.form.keys():
+            if field_name.startswith("tutor_") or field_name.startswith("admin_"):
+                email = field_name.split('_')[1]
                 tutor_role = 'Yes' if f'tutor_{email}' in request.form else 'No'
                 admin_role = 'Yes' if f'admin_{email}' in request.form else 'No'
                 cur.execute("UPDATE USERS SET Tutor = %s, Admin = %s WHERE Email = %s", (tutor_role, admin_role, email))
+
+            # Check for delete checkbox and delete user if checked
+            if field_name.startswith("delete_"):
+                email_to_delete = field_name.split('_')[1]
+                cur.execute("DELETE FROM USERS WHERE Email = %s", (email_to_delete,))
+
         mysql.connection.commit()
         cur.close()
         return redirect(url_for('admin_dashboard'))

@@ -47,6 +47,7 @@
                             <th>Last Name</th>
                             <th>Tutor</th>
                             <th>Admin</th>
+                            <th>Delete</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -60,12 +61,15 @@
                             <td>
                                 <input type="checkbox" name="admin_{{ user.Email }}" {% if user.Admin == 'Yes' %}checked{% endif %}>
                             </td>
+                            <td>
+                                <input type="checkbox" name="delete_{{ user.Email }}">
+                            </td>
                         </tr>
                         {% endfor %}
                     </tbody>
                 </table>
             </div>
-            <button type="submit">Update Roles</button>
+            <button type="submit">Update Roles and Delete Users</button>
         </form>
 
         <!-- Discipline, Subject, and Tutor Dropdowns for Schedule Approval -->
