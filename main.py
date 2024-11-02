@@ -1,9 +1,10 @@
-from flask import Flask, render_template, request, jsonify, session, redirect, url_for
+from flask import Flask, render_template, request, jsonify, session, redirect, url_for, flash
 import MySQLdb
 from flask_mysqldb import MySQL
 import re
 from datetime import timedelta, datetime
 import secrets
+
 
 app = Flask(__name__)
 app.secret_key = secrets.token_hex(16)
@@ -11,7 +12,8 @@ app.secret_key = secrets.token_hex(16)
 # MySQL configuration
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_DB'] = 'Tutoring_Center'
+#app.config['MYSQL_PASSWORD'] = '' 
+app.config['MYSQL_DB'] = 'tutoring_center'
 
 mysql = MySQL(app)
 
