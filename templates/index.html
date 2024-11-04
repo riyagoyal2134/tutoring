@@ -5,16 +5,45 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Weekly Calendar by Discipline and Subject</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&family=Playfair+Display:wght@400;500&display=swap" rel="stylesheet">
     <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
+        h2 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 500;
+        }
+        .logo-container {
+            text-align: center;
+            padding: 10px;
+
+            background-color: #e6f3ff;
+        }
+        .logo-container img {
+            max-height: 100px;
+            width: auto;
+        }
         .navbar h2 {
             flex-grow: 1;
             text-align:center;
             margin: 0;
+            font-weight: bold;
+            font-size: 24px;
         }
         .calendar-table {
             border-collapse: collapse;
             width: 80%;
             margin: 20px auto;
+            font-family: 'Roboto', sans-serif;
+            background: white;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
         }
         .calendar-table th, .calendar-table td {
             border: 1px solid #ddd;
@@ -22,6 +51,7 @@
         }
         .calendar-table th {
             background-color: #79bde9;
+            font-weight: 500;
         }
         .calendar-slot {
             height: 40px;
@@ -34,8 +64,9 @@
         .navbar {
             display: flex;
             justify-content: space-between;
-            background-color: #f1f1f1;
+            background-color: #e6f3ff;
             padding: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
         .navbar .auth-links {
             display: flex;
@@ -44,10 +75,54 @@
         .navbar button {
             padding: 10px;
             cursor: pointer;
+            font-family: 'Roboto', sans-serif;
+            border: none;
+            background-color: #79bde9;
+            color: white;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        .navbar button:hover {
+            background-color: #5da8d6;
+        }
+        select {
+            font-family: 'Roboto', sans-serif;
+            padding: 8px 12px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            width: 200px;
+            margin: 10px 0;
+        }
+        .dropdown-section {
+            background-color: #e6f3ff;
+            padding: 20px;
+            margin: 20px auto;
+            width: 80%;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .dropdown-section h2 {
+            margin: 10px 0;
+            color: #333;
+        }
+        .dropdown-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+        .calendar-heading {
+            text-align: center;
         }
     </style>
 </head>
 <body>
+    <!-- Logo Container -->
+    <div class="logo-container">
+        <img src="{{ url_for('static', filename='official-stockton-logo-display.png') }}" alt="Stockton Logo">
+    </div>
 
     <!-- Navbar with conditional login/logout buttons and role-based navigation buttons -->
     <div class="navbar">
@@ -73,21 +148,25 @@
         </div>
     </div>
 
-    <h2>Select Discipline</h2>
-    <select id="discipline">
-        <option value="">--Select Discipline--</option>
-        {% for discipline in disciplines %}
-            <option value="{{ discipline[0] }}">{{ discipline[1] }}</option>
-        {% endfor %}
-    </select>
+    <div class="dropdown-section">
+        <div class="dropdown-container">
+            <h2>Select Discipline</h2>
+            <select id="discipline">
+                <option value="">--Select Discipline--</option>
+                {% for discipline in disciplines %}
+                    <option value="{{ discipline[0] }}">{{ discipline[1] }}</option>
+                {% endfor %}
+            </select>
 
-    <h2>Select Subject</h2>
-    <select id="subject">
-        <option value="">--Select Subject--</option>
-        <!-- Subjects will be dynamically loaded based on discipline -->
-    </select>
+            <h2>Select Subject</h2>
+            <select id="subject">
+                <option value="">--Select Subject--</option>
+                <!-- Subjects will be dynamically loaded based on discipline -->
+            </select>
+        </div>
+    </div>
 
-    <h2>Weekly Calendar</h2>
+    <h2 class="calendar-heading">Weekly Calendar</h2>
     <table class="calendar-table">
         <thead>
             <tr>
