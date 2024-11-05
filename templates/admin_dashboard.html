@@ -7,20 +7,100 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
+        body {
+            background-color: #e6f3ff;
+            margin: 0;
+            padding: 20px;
+            min-width: 1200px;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+            margin: 0 auto;
+            max-width: 1400px;
+            min-width: 1000px;
+        }
         .scrollable {
-            max-height: 300px;
+
+            max-height: 400px;
             overflow-y: auto;
             border: 1px solid #ddd;
-            margin-top: 20px;
+
+            margin: 20px 0;
+            border-radius: 5px;
+            background-color: white;
         }
         table {
             width: 100%;
             border-collapse: collapse;
+            background-color: white;
         }
         th, td {
-            padding: 8px;
+
+            padding: 12px;
             text-align: left;
             border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f8f9fa;
+            position: sticky;
+            top: 0;
+            z-index: 1;
+        }
+        .button-container {
+            margin: 20px 0;
+            display: flex;
+            gap: 10px;
+        }
+        button, a {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+        }
+        button:hover, a:hover {
+            background-color: #0056b3;
+        }
+        h1, h2, h3 {
+            color: #333;
+            margin-top: 30px;
+        }
+        select, input[type="checkbox"] {
+            padding: 8px;
+            margin: 5px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+        }
+        label {
+            margin-right: 10px;
+            color: #555;
+        }
+        #calendar table {
+            table-layout: fixed;
+        }
+        #calendar td {
+            white-space: normal;
+            word-wrap: break-word;
+            min-width: 120px;
+        }
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+        .form-group {
+            margin: 15px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        select:disabled {
+            background-color: #e9ecef;
         }
     </style>
 </head>
@@ -36,7 +116,7 @@
 
         <h2>Admin Functions</h2>
 
-        <!-- User Role Management Form -->
+
         <h3>Manage User Roles</h3>
         <form method="POST" action="{{ url_for('update_user_roles') }}">
             <div class="scrollable">
@@ -72,9 +152,10 @@
             <button type="submit">Update Roles and Delete Users</button>
         </form>
 
-        <!-- Discipline, Subject, and Tutor Dropdowns for Schedule Approval -->
+
         <h3>Approve Schedules</h3>
-        <div>
+
+        <div class="form-group">
             <label for="discipline">Select Discipline:</label>
             <select id="discipline">
                 <option value="">Select Discipline</option>
@@ -94,7 +175,7 @@
             </select>
         </div>
 
-        <!-- Schedule Approval Form -->
+
         <form method="POST" action="{{ url_for('approve_schedules') }}" id="approve-schedules-form">
             <input type="hidden" name="tutor_email" id="hidden-tutor-email">
             <div class="scrollable">
@@ -114,11 +195,11 @@
             <button type="submit">Submit Approvals</button>
         </form>
 
-        <!-- Calendar to display all approved schedules for selected subject -->
+
         <h3>Weekly Calendar for Selected Subject</h3>
         <div id="calendar" class="scrollable"></div>
 
-        <!-- Table to display total approved hours for each tutor -->
+
         <h3>Total Approved Hours for Each Tutor</h3>
         <div id="approved-hours-table-container" class="scrollable">
             <table id="approved-hours-table">
@@ -129,7 +210,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <!-- Approved hours for tutors will be populated here -->
+
                 </tbody>
             </table>
         </div>
@@ -179,7 +260,7 @@
                     }
                 });
 
-                // Load all approved schedules for selected subject into the calendar
+
                 $.ajax({
                     url: '/get_schedule',
                     type: 'POST',
@@ -195,7 +276,7 @@
             }
         });
 
-        // Function to populate the calendar with approved schedules
+
         function populateCalendar(schedules) {
             const dayMap = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
             const calendar = {};
@@ -221,7 +302,7 @@
             });
             calendarHtml += '</tr></thead><tbody>';
 
-            // Generate time slots from 8:00 AM to 9:00 PM
+
             for (let hour = 8; hour < 21; hour++) {
                 ['00', '30'].forEach(min => {
                     const time = `${hour.toString().padStart(2, '0')}:${min}`;
@@ -237,7 +318,7 @@
             $('#calendar').html(calendarHtml);
         }
 
-        // Load the approval table based on tutor selection
+
         $('#tutor').on('change', function() {
             const tutorEmail = $(this).val();
             $('#hidden-tutor-email').val(tutorEmail);
@@ -279,7 +360,7 @@
             }
         });
 
-        // Fetch and display total approved hours for each tutor
+
         function loadApprovedHours() {
             $.ajax({
                 url: '/get_approved_hours',
@@ -301,7 +382,7 @@
             });
         }
 
-        // Load approved hours for tutors when page loads
+
         $(document).ready(function() {
             loadApprovedHours();
         });
