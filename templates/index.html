@@ -21,7 +21,6 @@
         .logo-container {
             text-align: center;
             padding: 10px;
-
             background-color: #e6f3ff;
         }
         .logo-container img {
@@ -37,7 +36,7 @@
         }
         .calendar-table {
             border-collapse: collapse;
-            width: 80%;
+            width: 100%;
             margin: 20px auto;
             font-family: 'Roboto', sans-serif;
             background: white;
@@ -97,11 +96,10 @@
         .dropdown-section {
             background-color: #e6f3ff;
             padding: 20px;
-            margin: 20px auto;
-            width: 80%;
+            margin: 20px;
+            width: 250px;
             border-radius: 8px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            text-align: center;
         }
         .dropdown-section h2 {
             margin: 10px 0;
@@ -110,11 +108,18 @@
         .dropdown-container {
             display: flex;
             flex-direction: column;
-            align-items: center;
             gap: 15px;
         }
         .calendar-heading {
             text-align: center;
+        }
+        .content-wrapper {
+            display: flex;
+            margin: 20px;
+            gap: 20px;
+        }
+        .calendar-container {
+            flex-grow: 1;
         }
     </style>
 </head>
@@ -148,42 +153,46 @@
         </div>
     </div>
 
-    <div class="dropdown-section">
-        <div class="dropdown-container">
-            <h2>Select Discipline</h2>
-            <select id="discipline">
-                <option value="">--Select Discipline--</option>
-                {% for discipline in disciplines %}
-                    <option value="{{ discipline[0] }}">{{ discipline[1] }}</option>
-                {% endfor %}
-            </select>
+    <div class="content-wrapper">
+        <div class="dropdown-section">
+            <div class="dropdown-container">
+                <h2>Select Discipline</h2>
+                <select id="discipline">
+                    <option value="">--Select Discipline--</option>
+                    {% for discipline in disciplines %}
+                        <option value="{{ discipline[0] }}">{{ discipline[1] }}</option>
+                    {% endfor %}
+                </select>
 
-            <h2>Select Subject</h2>
-            <select id="subject">
-                <option value="">--Select Subject--</option>
-                <!-- Subjects will be dynamically loaded based on discipline -->
-            </select>
+                <h2>Select Subject</h2>
+                <select id="subject">
+                    <option value="">--Select Subject--</option>
+                    <!-- Subjects will be dynamically loaded based on discipline -->
+                </select>
+            </div>
+        </div>
+
+        <div class="calendar-container">
+            <h2 class="calendar-heading">Weekly Calendar</h2>
+            <table class="calendar-table">
+                <thead>
+                    <tr>
+                        <th>Time</th>
+                        <th>Monday</th>
+                        <th>Tuesday</th>
+                        <th>Wednesday</th>
+                        <th>Thursday</th>
+                        <th>Friday</th>
+                        <th>Saturday</th>
+                        <th>Sunday</th>
+                    </tr>
+                </thead>
+                <tbody id="calendar-body">
+                    <!-- Calendar grid is generated here even if nothing is selected -->
+                </tbody>
+            </table>
         </div>
     </div>
-
-    <h2 class="calendar-heading">Weekly Calendar</h2>
-    <table class="calendar-table">
-        <thead>
-            <tr>
-                <th>Time</th>
-                <th>Monday</th>
-                <th>Tuesday</th>
-                <th>Wednesday</th>
-                <th>Thursday</th>
-                <th>Friday</th>
-                <th>Saturday</th>
-                <th>Sunday</th>
-            </tr>
-        </thead>
-        <tbody id="calendar-body">
-            <!-- Calendar grid is generated here even if nothing is selected -->
-        </tbody>
-    </table>
 
     <script>
         // Function to generate calendar in half-hour slots from 8 AM to 9 PM
