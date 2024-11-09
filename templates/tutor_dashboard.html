@@ -5,11 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tutor Dashboard</title>
     <style>
+        html, body {
+            width: 100%;
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
         body {
             background-color: #e6f3ff;
             font-family: Arial, sans-serif;
-            margin: 20px;
+            margin: 0;
             padding: 20px;
+            box-sizing: border-box;
+            overflow-x: hidden;
         }
         /* Basic styling */
         .scrollable {
@@ -152,9 +160,10 @@
         </div>
         
         <button type="submit">Add Availability</button>
+        <a href="{{ url_for('logout') }}">Logout</a>
+
     </form>
 
-    <a href="/logout">Logout</a>
 
     <script>
         const tutorSchedule = {{ tutor_schedule|tojson|safe }};
