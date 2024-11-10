@@ -161,19 +161,8 @@
         
         <button type="submit">Add Availability</button>
 
-        <script>
-        function toggleSwapForm() {
-            var form = document.getElementById("swapShiftForm");
-            // Check current state and toggle
-            if (form.style.display === "none" || form.style.display === "") {
-                form.style.display = "block";  // Show the form
-            } else {
-                form.style.display = "none";  // Hide the form
-            }
-        }
-    </script>
-    
-    <h2>Swap Shifts</h2>
+            
+        <h2>Swap Shifts</h2>
     
     <!-- Button to show/hide the form -->
     <button type="button" onclick="toggleSwapForm()">Show Swap Form</button>
@@ -181,15 +170,68 @@
     <!-- Hidden form for swapping shifts -->
     <div id="swapShiftForm" style="display: none; margin-top: 20px; padding: 10px; border: 1px solid #ccc; background-color: #f9f9f9;">
         <form method="post" action="/swap_shift">
+            <!-- Section for current shift -->
             <label for="swap_shifts">Enter the shift you want to swap:</label><br>
-            <input type="text" name="swap_shifts" id="swap_shifts" placeholder="Enter the shift you want to swap"><br><br>
+            
+            <!-- Day of the week dropdown for current shift -->
+            <label>Select Day:</label><br>
+            <select id="current_day" name="current_day" onchange="updateAvailableTimes()">
+                <option value="">Select a day</option>
+                <option value="Monday">Monday</option>
+                <option value="Tuesday">Tuesday</option>
+                <option value="Wednesday">Wednesday</option>
+                <option value="Thursday">Thursday</option>
+                <option value="Friday">Friday</option>
+                <option value="Saturday">Saturday</option>
+                <option value="Sunday">Sunday</option>
+            </select><br><br>
     
-            <label for="new_shift">Enter the new shift:</label><br>
+            <!-- Time slot checkboxes and locations for current shift -->
+            <label>Select Times and Set Location:</label><br>
+            <div id="currentTimeSlots">
+                <!-- Time slots for the current shift will be dynamically added here -->
+            </div>
+            
+            <label for="new_shift">Enter the new shift:</label><br><br>
+    
+            <!-- Day of the week dropdown for new shift -->
+            <label>Select Day:</label><br>
+            <select id="new_day" name="new_day" onchange="updateAvailableTimes()">
+                <option value="">Select a day</option>
+                <option value="Monday">Monday</option>
+                <option value="Tuesday">Tuesday</option>
+                <option value="Wednesday">Wednesday</option>
+                <option value="Thursday">Thursday</option>
+                <option value="Friday">Friday</option>
+                <option value="Saturday">Saturday</option>
+                <option value="Sunday">Sunday</option>
+            </select><br><br>
+    
+            <!-- Time slot checkboxes and locations for new shift -->
+            <label>Select Times and Set Location:</label><br>
+            <div id="newTimeSlots">
+                <!-- Time slots for the new shift will be dynamically added here -->
+            </div>
+            
             <input type="text" name="new_shift" id="new_shift" placeholder="Enter the new shift"><br><br>
-    
+        
             <button type="submit">Submit Swap</button>
+
+             
         </form>
     </div>
+
+    <script>
+    function toggleSwapForm() {
+        var form = document.getElementById("swapShiftForm");
+        // Check current state and toggle
+        if (form.style.display === "none" || form.style.display === "") {
+            form.style.display = "block";  // Show the form
+        } else {
+            form.style.display = "none";  // Hide the form
+        }
+    }
+    </script>
         <a href="{{ url_for('logout') }}">Logout</a>
 
     </form>
