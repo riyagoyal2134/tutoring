@@ -162,6 +162,7 @@
         <button type="submit">Add Availability</button>
 
             
+        
         <h2>Swap Shifts</h2>
     
     <!-- Button to show/hide the form -->
@@ -172,10 +173,10 @@
         <form method="post" action="/swap_shift">
             <!-- Section for current shift -->
             <label for="swap_shifts">Enter the shift you want to swap:</label><br>
-            
+            <br>
             <!-- Day of the week dropdown for current shift -->
             <label>Select Day:</label><br>
-            <select id="current_day" name="current_day" onchange="updateAvailableTimes()">
+            <select id="current_day" name="current_day" onchange="updateSwapTimes('current_day', 'currentTimeSlots', currentSchedule)">
                 <option value="">Select a day</option>
                 <option value="Monday">Monday</option>
                 <option value="Tuesday">Tuesday</option>
@@ -185,18 +186,20 @@
                 <option value="Saturday">Saturday</option>
                 <option value="Sunday">Sunday</option>
             </select><br><br>
+            
+             <!-- in progress -->
     
             <!-- Time slot checkboxes and locations for current shift -->
             <label>Select Times and Set Location:</label><br>
             <div id="currentTimeSlots">
                 <!-- Time slots for the current shift will be dynamically added here -->
             </div>
-            
+            <br>
             <label for="new_shift">Enter the new shift:</label><br><br>
-    
+            
             <!-- Day of the week dropdown for new shift -->
             <label>Select Day:</label><br>
-            <select id="new_day" name="new_day" onchange="updateAvailableTimes()">
+            <select id="new_day" name="new_day" onchange="updateSwapTimes('new_day', 'newTimeSlots', newSchedule)">
                 <option value="">Select a day</option>
                 <option value="Monday">Monday</option>
                 <option value="Tuesday">Tuesday</option>
@@ -212,8 +215,6 @@
             <div id="newTimeSlots">
                 <!-- Time slots for the new shift will be dynamically added here -->
             </div>
-            
-            <input type="text" name="new_shift" id="new_shift" placeholder="Enter the new shift"><br><br>
         
             <button type="submit">Submit Swap</button>
 
@@ -222,19 +223,88 @@
     </div>
 
     <script>
-    function toggleSwapForm() {
-        var form = document.getElementById("swapShiftForm");
-        // Check current state and toggle
-        if (form.style.display === "none" || form.style.display === "") {
-            form.style.display = "block";  // Show the form
-        } else {
-            form.style.display = "none";  // Hide the form
+        function toggleSwapForm() {
+            const form = document.getElementById("swapShiftForm");
+            
+            
+            if (form.style.display === "none") {
+                form.style.display = "block";
+                
+             
+                form.scrollIntoView({ behavior: "smooth", block: "start" });
+            } else {
+                form.style.display = "none";
+            }
         }
-    }
     </script>
         <a href="{{ url_for('logout') }}">Logout</a>
 
     </form>
+
+
+     <!-- not finished or connected to backend yet-->
+<script>
+   const currentSchedule = [
+        ["Monday", "08:00", "TRLC"],
+        ["Monday", "09:00", "Online"],
+        ["Tuesday", "10:00", "J-105"]
+    ];
+
+    const newSchedule = [
+        ["Wednesday", "08:00", "Online"],
+        ["Thursday", "12:00", "TRLC"]
+    ];
+   
+
+    function updateSwapTimes(dayId, timeSlotsId, schedule) {
+        const selectedDay = document.getElementById(dayId).value;
+        const timeSlotsDiv = document.getElementById(timeSlotsId);
+
+       
+        timeSlotsDiv.innerHTML = '';
+
+       
+        const timeIntervals = [
+            "08:00", "08:30", "09:00", "09:30", "10:00", "10:30", "11:00", "11:30",
+            "12:00", "12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30",
+            "16:00", "16:30", "17:00", "17:30", "18:00", "18:30", "19:00", "19:30",
+            "20:00", "20:30"
+        ];
+
+      
+        timeIntervals.forEach(time => {
+            const timeSlotDiv = document.createElement("div");
+            timeSlotDiv.classList.add("time-slot");
+
+            const checkbox = document.createElement("input");
+            checkbox.type = "checkbox";
+            checkbox.name = "availability_times";
+            checkbox.value = time;
+
+     
+            const existingEntry = schedule.find(([d, t, loc]) => d === selectedDay && t === time);
+            if (existingEntry) {
+                checkbox.checked = true;
+            }
+
+            const timeLabel = document.createElement("label");
+            timeLabel.innerText = time; 
+
+            const locationInput = document.createElement("input");
+            locationInput.type = "text";
+            locationInput.name = `location_${time}`;  
+            locationInput.placeholder = "Location";
+            locationInput.value = existingEntry ? existingEntry[2] : ""; 
+
+            timeSlotDiv.appendChild(checkbox);
+            timeSlotDiv.appendChild(timeLabel);
+            timeSlotDiv.appendChild(locationInput);
+
+            timeSlotsDiv.appendChild(timeSlotDiv);
+        });
+    }
+</script>
+
 
 
     <script>
