@@ -4,320 +4,193 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tutor Dashboard</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        html, body {
-            width: 100%;
-            min-height: 100vh;
-            margin: 0;
-            padding: 0;
-        }
         body {
-            background-color: #e6f3ff;
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 20px;
-            box-sizing: border-box;
-            overflow-x: hidden;
+            background-color: #f8f9fa;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            padding-top: 20px;
         }
-        /* Basic styling */
         .scrollable {
-            max-height: 150px;
+            max-height: 250px;
             overflow-y: auto;
-            border: 1px solid #bbd8ff;
-            padding: 10px;
-            margin-bottom: 15px;
+            border: 1px solid #dee2e6;
+            padding: 15px;
+            margin-bottom: 20px;
             background-color: white;
-            border-radius: 5px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
         }
         .time-slot {
             display: flex;
             align-items: center;
-            margin-bottom: 5px;
+            margin-bottom: 10px;
+            gap: 15px;
         }
         .time-slot input[type="text"] {
-            margin-left: 10px;
-            width: 100px;
-            padding: 5px;
-            border: 1px solid #bbd8ff;
-            border-radius: 3px;
+            flex: 1;
+            padding: 8px;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
         }
         .calendar {
             display: grid;
             grid-template-columns: repeat(7, 1fr);
-            gap: 10px;
-            text-align: center;
+            gap: 15px;
             margin-top: 20px;
         }
         .day {
-            padding: 10px;
-            border: 1px solid #bbd8ff;
+            padding: 15px;
             background-color: white;
-            border-radius: 4px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
         }
         .schedule-entry {
             font-size: 0.9em;
-            margin-top: 5px;
-            background-color: #e0f7fa;
-            border-radius: 3px;
-            padding: 3px;
+            margin-top: 8px;
+            background-color: #e9ecef;
+            border-radius: 4px;
+            padding: 6px;
         }
-        button {
-            background-color: #4a90e2;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            margin: 5px;
-        }
-        button:hover {
-            background-color: #357abd;
-        }
-        select, input[type="checkbox"] {
-            margin: 5px;
-            padding: 5px;
-            border: 1px solid #bbd8ff;
-            border-radius: 3px;
-        }
-        h1, h2 {
-            color: #2c3e50;
-        }
-        a {
-            color: #4a90e2;
-            text-decoration: none;
-        }
-        a:hover {
-            text-decoration: underline;
+        .section-card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
         }
     </style>
 </head>
 <body>
-    <h1>Welcome, {{ firstname }}!</h1>
-    <p>This is your tutor dashboard. Here you can manage your tutoring sessions.</p>
+    <div class="container">
+        <div class="row mb-4">
+            <div class="col">
+                <h1 class="display-4">Welcome, {{ firstname }}!</h1>
+                <p class="lead">This is your tutor dashboard. Here you can manage your tutoring sessions.</p>
+            </div>
+        </div>
 
-    <!-- Button to go to index page (always visible) -->
-    <button onclick="window.location.href='{{ url_for('index') }}'">Go to Home</button>
+        <div class="row mb-4">
+            <div class="col">
+                <button class="btn btn-primary me-2" onclick="window.location.href='{{ url_for('index') }}'">
+                    <i class="bi bi-house-door"></i> Go to Home
+                </button>
+                {% if session.get('admin') == 'Yes' %}
+                    <button class="btn btn-secondary" onclick="window.location.href='{{ url_for('admin_dashboard') }}'">
+                        <i class="bi bi-gear"></i> Go to Admin Page
+                    </button>
+                {% endif %}
+            </div>
+        </div>
 
-    <!-- Conditionally show the "Go to Admin" button if the user is an admin -->
-    {% if session.get('admin') == 'Yes' %}
-        <button onclick="window.location.href='{{ url_for('admin_dashboard') }}'">Go to Admin Page</button>
-    {% endif %}
+        <div class="section-card">
+            <h2 class="h3 mb-4">Your Approved Schedule</h2>
+            <div class="calendar">
+                {% for day in ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'] %}
+                    <div class="day">
+                        <strong>{{ day }}</strong>
+                        <div>
+                            {% for entry in approved_schedule %}
+                                {% if entry['DayOfWeek'] == day %}
+                                    <div class="schedule-entry">
+                                        {{ entry['StartTime'] }} - {{ entry['Loc'] }}
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
 
-    <!-- Approved Schedule Calendar -->
-    <h2>Your Approved Schedule</h2>
-    <div class="calendar">
-        {% for day in ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'] %}
-            <div class="day">
-                <strong>{{ day }}</strong>
-                <div>
-                    {% for entry in approved_schedule %}
-                        {% if entry['DayOfWeek'] == day %}
-                            <div class="schedule-entry">
-                                {{ entry['StartTime'] }} - {{ entry['Loc'] }}
+        <div class="row">
+            <div class="col-md-6">
+                <div class="section-card">
+                    <h2 class="h3 mb-4">Update Subjects</h2>
+                    <form method="post">
+                        <div class="scrollable">
+                            <div class="form-check">
+                                {% for subject in subjects %}
+                                    <div class="mb-2">
+                                        <input class="form-check-input" type="checkbox" name="subject_ids" 
+                                               value="{{ subject.SubjectID }}"
+                                               {% if subject.SubjectID in tutor_subjects %} checked {% endif %}>
+                                        <label class="form-check-label">{{ subject.SubjectName }}</label>
+                                    </div>
+                                {% endfor %}
                             </div>
-                        {% endif %}
-                    {% endfor %}
+                        </div>
+                        <button type="submit" class="btn btn-primary mt-3">Update Subjects</button>
+                    </form>
                 </div>
             </div>
-        {% endfor %}
+
+            <div class="col-md-6">
+                <div class="section-card">
+                    <h2 class="h3 mb-4">Set Availability</h2>
+                    <form method="post">
+                        <div class="mb-3">
+                            <label class="form-label">Select Day:</label>
+                            <select class="form-select" id="availability_day" name="availability_day" onchange="updateAvailableTimes()">
+                                <option value="">Select a day</option>
+                                <option value="Monday">Monday</option>
+                                <option value="Tuesday">Tuesday</option>
+                                <option value="Wednesday">Wednesday</option>
+                                <option value="Thursday">Thursday</option>
+                                <option value="Friday">Friday</option>
+                                <option value="Saturday">Saturday</option>
+                                <option value="Sunday">Sunday</option>
+                            </select>
+                        </div>
+                        
+                        <div class="scrollable">
+                            <label class="form-label">Select Times and Set Location:</label>
+                            <div id="timeSlots"></div>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary mt-3">Add Availability</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-4 text-center">
+            <a href="{{ url_for('logout') }}" class="btn btn-danger">Logout</a>
+        </div>
     </div>
 
-    <!-- Update Subjects Form -->
-    <h2>Update Subjects</h2>
-    <form method="post">
-        <div class="scrollable">
-            <label>Select Subjects:</label><br>
-            {% for subject in subjects %}
-                <input type="checkbox" name="subject_ids" value="{{ subject.SubjectID }}"
-                       {% if subject.SubjectID in tutor_subjects %} checked {% endif %}>
-                {{ subject.SubjectName }}<br>
-            {% endfor %}
-        </div>
-        <button type="submit">Update Subjects</button>
-    </form>
-
-    <!-- Set Availability Form -->
-    <h2>Set Availability</h2>
-    <form method="post">
-        <!-- Day of the week dropdown -->
-        <label>Select Day:</label><br>
-        <select id="availability_day" name="availability_day" onchange="updateAvailableTimes()">
-            <option value="">Select a day</option>
-            <option value="Monday">Monday</option>
-            <option value="Tuesday">Tuesday</option>
-            <option value="Wednesday">Wednesday</option>
-            <option value="Thursday">Thursday</option>
-            <option value="Friday">Friday</option>
-            <option value="Saturday">Saturday</option>
-            <option value="Sunday">Sunday</option>
-        </select><br><br>
-        
-        <!-- Time slot checkboxes and locations -->
-        <label>Select Times and Set Location:</label><br>
-        <div id="timeSlots">
-            <!-- Time slots will be dynamically added here by JavaScript -->
-        </div>
-        
-        <button type="submit">Add Availability</button>
-
-            
-        
-        <h2>Swap Shifts</h2>
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     
-    <!-- Button to show/hide the form -->
-    <button type="button" onclick="toggleSwapForm()">Show Swap Form</button>
-    
-    <!-- Hidden form for swapping shifts -->
-    <div id="swapShiftForm" style="display: none; margin-top: 20px; padding: 10px; border: 1px solid #ccc; background-color: #f9f9f9;">
-        <form method="post" action="/swap_shift">
-            <!-- Section for current shift -->
-            <label for="swap_shifts">Enter the shift you want to swap:</label><br>
-            <br>
-            <!-- Day of the week dropdown for current shift -->
-            <label>Select Day:</label><br>
-            <select id="current_day" name="current_day" onchange="updateSwapTimes('current_day', 'currentTimeSlots', currentSchedule)">
-                <option value="">Select a day</option>
-                <option value="Monday">Monday</option>
-                <option value="Tuesday">Tuesday</option>
-                <option value="Wednesday">Wednesday</option>
-                <option value="Thursday">Thursday</option>
-                <option value="Friday">Friday</option>
-                <option value="Saturday">Saturday</option>
-                <option value="Sunday">Sunday</option>
-            </select><br><br>
-            
-             <!-- in progress -->
-    
-            <!-- Time slot checkboxes and locations for current shift -->
-            <label>Select Times and Set Location:</label><br>
-            <div id="currentTimeSlots">
-                <!-- Time slots for the current shift will be dynamically added here -->
-            </div>
-            <br>
-            <label for="new_shift">Enter the new shift:</label><br><br>
-            
-            <!-- Day of the week dropdown for new shift -->
-            <label>Select Day:</label><br>
-            <select id="new_day" name="new_day" onchange="updateSwapTimes('new_day', 'newTimeSlots', newSchedule)">
-                <option value="">Select a day</option>
-                <option value="Monday">Monday</option>
-                <option value="Tuesday">Tuesday</option>
-                <option value="Wednesday">Wednesday</option>
-                <option value="Thursday">Thursday</option>
-                <option value="Friday">Friday</option>
-                <option value="Saturday">Saturday</option>
-                <option value="Sunday">Sunday</option>
-            </select><br><br>
-    
-            <!-- Time slot checkboxes and locations for new shift -->
-            <label>Select Times and Set Location:</label><br>
-            <div id="newTimeSlots">
-                <!-- Time slots for the new shift will be dynamically added here -->
-            </div>
-        
-            <button type="submit">Submit Swap</button>
-
-             
-        </form>
-    </div>
-
+    <!-- Original Scripts -->
     <script>
         function toggleSwapForm() {
             const form = document.getElementById("swapShiftForm");
-            
-            
             if (form.style.display === "none") {
                 form.style.display = "block";
-                
-             
                 form.scrollIntoView({ behavior: "smooth", block: "start" });
             } else {
                 form.style.display = "none";
             }
         }
-    </script>
-        <a href="{{ url_for('logout') }}">Logout</a>
 
-    </form>
-
-
-     <!-- not finished or connected to backend yet-->
-<script>
-   const currentSchedule = [
-        ["Monday", "08:00", "TRLC"],
-        ["Monday", "09:00", "Online"],
-        ["Tuesday", "10:00", "J-105"]
-    ];
-
-    const newSchedule = [
-        ["Wednesday", "08:00", "Online"],
-        ["Thursday", "12:00", "TRLC"]
-    ];
-   
-
-    function updateSwapTimes(dayId, timeSlotsId, schedule) {
-        const selectedDay = document.getElementById(dayId).value;
-        const timeSlotsDiv = document.getElementById(timeSlotsId);
-
-       
-        timeSlotsDiv.innerHTML = '';
-
-       
-        const timeIntervals = [
-            "08:00", "08:30", "09:00", "09:30", "10:00", "10:30", "11:00", "11:30",
-            "12:00", "12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30",
-            "16:00", "16:30", "17:00", "17:30", "18:00", "18:30", "19:00", "19:30",
-            "20:00", "20:30"
+        const currentSchedule = [
+            ["Monday", "08:00", "TRLC"],
+            ["Monday", "09:00", "Online"],
+            ["Tuesday", "10:00", "J-105"]
         ];
 
-      
-        timeIntervals.forEach(time => {
-            const timeSlotDiv = document.createElement("div");
-            timeSlotDiv.classList.add("time-slot");
+        const newSchedule = [
+            ["Wednesday", "08:00", "Online"],
+            ["Thursday", "12:00", "TRLC"]
+        ];
 
-            const checkbox = document.createElement("input");
-            checkbox.type = "checkbox";
-            checkbox.name = "availability_times";
-            checkbox.value = time;
-
-     
-            const existingEntry = schedule.find(([d, t, loc]) => d === selectedDay && t === time);
-            if (existingEntry) {
-                checkbox.checked = true;
-            }
-
-            const timeLabel = document.createElement("label");
-            timeLabel.innerText = time; 
-
-            const locationInput = document.createElement("input");
-            locationInput.type = "text";
-            locationInput.name = `location_${time}`;  
-            locationInput.placeholder = "Location";
-            locationInput.value = existingEntry ? existingEntry[2] : ""; 
-
-            timeSlotDiv.appendChild(checkbox);
-            timeSlotDiv.appendChild(timeLabel);
-            timeSlotDiv.appendChild(locationInput);
-
-            timeSlotsDiv.appendChild(timeSlotDiv);
-        });
-    }
-</script>
-
-
-
-    <script>
-        const tutorSchedule = {{ tutor_schedule|tojson|safe }};
-
-        function updateAvailableTimes() {
-            const day = document.getElementById("availability_day").value;
-            const timeSlotsDiv = document.getElementById("timeSlots");
-
-            // Clear current time slots
+        function updateSwapTimes(dayId, timeSlotsId, schedule) {
+            const selectedDay = document.getElementById(dayId).value;
+            const timeSlotsDiv = document.getElementById(timeSlotsId);
             timeSlotsDiv.innerHTML = '';
 
-            // List of 30-minute intervals in HH:MM format
             const timeIntervals = [
                 "08:00", "08:30", "09:00", "09:30", "10:00", "10:30", "11:00", "11:30",
                 "12:00", "12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30",
@@ -325,30 +198,79 @@
                 "20:00", "20:30"
             ];
 
-            // Generate checkboxes and location inputs for each time slot
             timeIntervals.forEach(time => {
                 const timeSlotDiv = document.createElement("div");
                 timeSlotDiv.classList.add("time-slot");
 
                 const checkbox = document.createElement("input");
                 checkbox.type = "checkbox";
+                checkbox.className = "form-check-input";
                 checkbox.name = "availability_times";
                 checkbox.value = time;
 
-                // Find if this time slot is already in the schedule and set location if so
+                const existingEntry = schedule.find(([d, t, loc]) => d === selectedDay && t === time);
+                if (existingEntry) {
+                    checkbox.checked = true;
+                }
+
+                const timeLabel = document.createElement("label");
+                timeLabel.className = "form-check-label ms-2";
+                timeLabel.innerText = time;
+
+                const locationInput = document.createElement("input");
+                locationInput.type = "text";
+                locationInput.className = "form-control";
+                locationInput.name = `location_${time}`;
+                locationInput.placeholder = "Location";
+                locationInput.value = existingEntry ? existingEntry[2] : "";
+
+                timeSlotDiv.appendChild(checkbox);
+                timeSlotDiv.appendChild(timeLabel);
+                timeSlotDiv.appendChild(locationInput);
+
+                timeSlotsDiv.appendChild(timeSlotDiv);
+            });
+        }
+
+        const tutorSchedule = {{ tutor_schedule|tojson|safe }};
+
+        function updateAvailableTimes() {
+            const day = document.getElementById("availability_day").value;
+            const timeSlotsDiv = document.getElementById("timeSlots");
+            timeSlotsDiv.innerHTML = '';
+
+            const timeIntervals = [
+                "08:00", "08:30", "09:00", "09:30", "10:00", "10:30", "11:00", "11:30",
+                "12:00", "12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30",
+                "16:00", "16:30", "17:00", "17:30", "18:00", "18:30", "19:00", "19:30",
+                "20:00", "20:30"
+            ];
+
+            timeIntervals.forEach(time => {
+                const timeSlotDiv = document.createElement("div");
+                timeSlotDiv.classList.add("time-slot");
+
+                const checkbox = document.createElement("input");
+                checkbox.type = "checkbox";
+                checkbox.className = "form-check-input";
+                checkbox.name = "availability_times";
+                checkbox.value = time;
+
                 const existingEntry = tutorSchedule.find(([d, t, loc]) => d === day && t === time);
                 if (existingEntry) {
                     checkbox.checked = true;
                 }
 
                 const timeLabel = document.createElement("label");
-                timeLabel.innerText = time; // Display HH:MM format
+                timeLabel.className = "form-check-label ms-2";
+                timeLabel.innerText = time;
 
                 const locationInput = document.createElement("input");
                 locationInput.type = "text";
-                locationInput.name = `location_${time}`;  // Unique name for each location input
+                locationInput.className = "form-control";
+                locationInput.name = `location_${time}`;
                 locationInput.placeholder = "Location";
-                locationInput.value = existingEntry ? existingEntry[2] : ""; // Prefill location if exists
+                locationInput.value = existingEntry ? existingEntry[2] : "";
 
                 timeSlotDiv.appendChild(checkbox);
                 timeSlotDiv.appendChild(timeLabel);
