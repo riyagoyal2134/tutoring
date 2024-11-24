@@ -73,9 +73,8 @@
 
         <div class="row mb-4">
             <div class="col">
-                <button class="btn btn-primary me-2" onclick="window.location.href='{{ url_for('index') }}'">
-                    <i class="bi bi-house-door"></i> Go to Home
-                </button>
+                <button class="btn btn-primary me-2" style="background-color: #79bde9;" onclick="window.location.href='{{ url_for('index') }}'">
+                    <i class="bi bi-house-door"></i> Go to Home                </button>
                 {% if session.get('admin') == 'Yes' %}
                     <button class="btn btn-secondary" onclick="window.location.href='{{ url_for('admin_dashboard') }}'">
                         <i class="bi bi-gear"></i> Go to Admin Page
@@ -121,7 +120,7 @@
                                 {% endfor %}
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-primary mt-3">Update Subjects</button>
+                        <button type="submit" class="btn btn-primary mt-3" style="background-color: #79bde9;">Update Subjects</button>
                     </form>
                 </div>
             </div>
@@ -149,7 +148,7 @@
                             <div id="timeSlots"></div>
                         </div>
                         
-                        <button type="submit" class="btn btn-primary mt-3">Add Availability</button>
+                        <button type="submit" class="btn btn-primary mt-3" style="background-color: #79bde9;">Add Availability</button>
                     </form>
                 </div>
             </div>
